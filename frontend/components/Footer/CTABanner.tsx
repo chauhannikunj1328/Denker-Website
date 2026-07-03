@@ -50,14 +50,14 @@ export function CTABanner() {
               alt=""
               width={1091}
               height={786}
-              className="absolute bottom-[calc(-2%-60px)] left-[-3%] w-[150px] sm:w-[220px] md:w-[315px] xl:w-[360px]"
+              className="absolute bottom-[calc(-2%+60px)] left-[-3%] w-[180px] sm:bottom-[calc(-2%)] sm:w-[330px] md:bottom-[calc(-2%-60px)] md:w-[315px] xl:w-[360px]"
             />
             <Image
               src="/images/cta/cta-right-side-image.png"
               alt=""
               width={1260}
               height={810}
-              className="absolute bottom-[calc(-2%-60px)] right-[-3%] w-[180px] sm:w-[260px] md:w-[375px] xl:w-[420px]"
+              className="absolute bottom-[calc(-2%+60px)] right-[-3%] w-[216px] sm:bottom-[calc(-2%)] sm:w-[390px] md:bottom-[calc(-2%-60px)] md:w-[375px] xl:w-[420px]"
             />
           </div>
         </div>
