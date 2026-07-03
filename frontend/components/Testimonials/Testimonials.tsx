@@ -1,33 +1,67 @@
 "use client";
 
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
-import { useRef } from "react";
+import { cn } from "@/lib/cn";
+import { useDeckCarousel } from "@/lib/useDeckCarousel";
 import { Container } from "@/components/ui/Container";
 
-const uniqueTestimonials = [
-  {
-    name: "Adefisan Emmanuel",
-    text: "The double- control for screen captures sounds incredibly smooth, Juan! It completely removes the friction of explaining context to AI agents.",
-  },
+const testimonials = [
   {
     name: "Amir Mirmehrkar",
-    text: "I am mro visual, it hits home. I had changes in repeating context. Over and over. Across tools. Across teammates. every new doc. Every new sprint. Re-explaining the same product assumptions, goals, constrains.",
+    avatar: "/images/testimonials/amir-mirmehrkar.jpg",
+    text: "I am more visual, it hits home.I had chaneges in repeating context.\nOver and over. Across tools. Across teammates.\nEvery new doc. Every new sprint.\nRe-explaining the same product assumptions, goals, constraints.",
+    autoHeight: true,
+  },
+  {
+    name: "Adefisan Emmanuel",
+    avatar: "/images/testimonials/adefisan-emmanuel.jpg",
+    text: "The double-control shortcut for screen captures sounds incredibly smooth, Juan! It completely removes the friction of explaining context to AI agents.",
   },
   {
     name: "Ahmed Ali",
-    text: "Demo > explanation, always. Tools like this make it easier to show real value instead of just describing it.",
+    avatar: "/images/testimonials/ahmed-ali.jpg",
+    text: "Demo > explanation, always. Tools like this make it easier to show real value instead of just describing it",
+  },
+  {
+    name: "Manas Rohilla",
+    avatar: "/images/testimonials/manas-rohilla.jpg",
+    text: "This is some crazy product you\ngot 🫡",
+  },
+  {
+    name: "Joey Zhu",
+    avatar: "/images/testimonials/joey-zhu.jpg",
+    text: "UI is so good, like an artpiece.",
+  },
+  {
+    name: "Mohammad Ashad",
+    avatar: "/images/testimonials/mohammad-ashad.jpg",
+    text: "It hits home.",
+  },
+  {
+    name: "Leon Roth",
+    avatar: "/images/testimonials/leon-roth.jpg",
+    text: "soo powerful!!",
+  },
+  {
+    name: "Alex Carter",
+    avatar: "/images/testimonials/alex-carter.png",
+    text: "Denker has become part of my daily workflow. Instead of jumping between tools, I can research competitors, summarize content, and move ideas forward from one place.",
+  },
+  {
+    name: "Sophie Laurent",
+    avatar: "/images/testimonials/sophie-laurent.png",
+    text: "The ability to understand what's on my screen and provide context-aware assistance saves me a surprising amount of time every day. It feels less like a chatbot and more like a teammate.",
+  },
+  {
+    name: "Daniel Müller",
+    avatar: "/images/testimonials/daniel-muller.png",
+    text: "From research and documentation to coordinating tasks across the team, Denker helps us stay focused on building instead of managing repetitive work.",
   },
 ];
 
-// Figma repeats the 3 testimonials above to fill a 6-card row.
-const testimonials = [...uniqueTestimonials, ...uniqueTestimonials];
-
 export function Testimonials() {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  const scrollBy = (dir: 1 | -1) => {
-    trackRef.current?.scrollBy({ left: dir * 330, behavior: "smooth" });
-  };
+  const { wrapperRef, deckRef, offset, dragging, step, isFirst, isLast, pointerHandlers } =
+    useDeckCarousel(testimonials.length);
 
   return (
     <section
@@ -40,48 +74,65 @@ export function Testimonials() {
           Loved by Builders
         </h2>
 
-        <div
-          ref={trackRef}
-          className="flex w-full snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {testimonials.map((testimonial, i) => (
-            <div
-              key={i}
-              className="flex w-[70%] shrink-0 snap-start flex-col gap-4 sm:w-[45%] md:w-[315px]"
-            >
-              <div className="h-[360px] w-full overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-grey-100">
-                <img
-                  src="/images/testimonials/avatar-1.png"
-                  alt={testimonial.name}
-                  className="size-full object-cover"
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="font-heading text-2xl font-bold text-grey-950">
-                  {testimonial.name}
-                </p>
-                <p className="font-heading text-base font-medium leading-6 text-grey-500">
+        {/* No overflow clipping anywhere in this chain — neighboring cards
+            render at full size and bleed past the 1280px container into the
+            page's outer margins instead of being cut off. Same deck
+            mechanics as CardCarousel (see useDeckCarousel). */}
+        <div ref={wrapperRef} className="relative w-full">
+          <div
+            ref={deckRef}
+            {...pointerHandlers}
+            className={cn(
+              "flex w-max cursor-grab gap-2 select-none active:cursor-grabbing",
+              !dragging && "transition-transform duration-500 ease-out"
+            )}
+            style={{ transform: `translateX(${-offset}px)` }}
+          >
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.name}
+                className={cn(
+                  "flex w-[280px] shrink-0 select-none flex-col justify-between gap-8 rounded-2xl border border-grey-150 bg-grey-50 p-6 sm:w-[380px] md:w-[435px]",
+                  testimonial.autoHeight
+                    ? "h-auto"
+                    : "h-[300px] sm:h-[340px] md:h-[376px]"
+                )}
+              >
+                <p className="whitespace-pre-line font-heading text-lg font-medium leading-7 text-grey-700 sm:text-xl sm:leading-8 md:text-2xl md:leading-[32px]">
                   {testimonial.text}
                 </p>
+                <div className="flex shrink-0 items-center gap-3">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    draggable={false}
+                    className="size-10 shrink-0 rounded-lg object-cover sm:size-11 md:size-12"
+                  />
+                  <p className="font-heading text-base font-medium text-grey-950 sm:text-lg md:text-xl">
+                    {testimonial.name}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="flex w-full items-center justify-end gap-2">
           <button
             type="button"
             aria-label="Previous"
-            onClick={() => scrollBy(-1)}
-            className="flex h-10 w-[52px] items-center justify-center rounded-full border border-grey-150 bg-white text-primary-600 transition-colors hover:bg-grey-50"
+            onClick={() => step(-1)}
+            disabled={isFirst}
+            className="flex h-10 w-[52px] items-center justify-center rounded-full border border-grey-150 bg-white text-primary-600 transition-colors hover:bg-grey-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
           >
             <CaretLeft className="size-5" />
           </button>
           <button
             type="button"
             aria-label="Next"
-            onClick={() => scrollBy(1)}
-            className="flex h-10 w-[52px] items-center justify-center rounded-full border border-grey-150 bg-white text-primary-600 transition-colors hover:bg-grey-50"
+            onClick={() => step(1)}
+            disabled={isLast}
+            className="flex h-10 w-[52px] items-center justify-center rounded-full border border-grey-150 bg-white text-primary-600 transition-colors hover:bg-grey-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white"
           >
             <CaretRight className="size-5" />
           </button>

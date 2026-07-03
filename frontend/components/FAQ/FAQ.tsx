@@ -2,10 +2,9 @@
 
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
-// NOTE: only the first question has answer copy in the Figma file — the
-// remaining 7 need real answers from the client before shipping.
 const faqs = [
   {
     question: "What is Denker?",
@@ -14,14 +13,42 @@ const faqs = [
   },
   {
     question: "How is Denker different from ChatGPT or other AI assistants?",
-    answer: "",
+    answer:
+      "Unlike traditional AI assistants that mainly answer questions, Denker is built to help you get work done. It understands context, works across your tools, and assists with research, analysis, and task execution.",
   },
-  { question: "What kind of tasks can Denker help with?", answer: "" },
-  { question: "Can I interact with Denker using voice?", answer: "" },
-  { question: "Does Denker work with my existing tools?", answer: "" },
-  { question: "Is my data secure?", answer: "" },
-  { question: "Is Denker free to use?", answer: "" },
-  { question: "How do I get started?", answer: "" },
+  {
+    question: "What kind of tasks can Denker help with?",
+    answer:
+      "Denker can help with competitor research, product planning, SEO analysis, documentation, workflow automation, and many other day-to-day tasks that founders and builders perform.",
+  },
+  {
+    question: "Can I interact with Denker using voice?",
+    answer:
+      "Absolutely. You can communicate with Denker using either voice or text, making it easy to switch between conversations and hands-free workflows.",
+  },
+  {
+    question: "Does Denker work with my existing tools?",
+    answer:
+      "Yes. Denker integrates with the tools you already use, helping you stay in your existing workflow instead of forcing you to learn a new one.",
+  },
+  {
+    question: "Is my data secure?",
+    answer:
+      "Yes. Your privacy and security are a priority. Denker is designed to work with your tasks while giving you control over your data and permissions. You decide what Denker can access and how it assists your workflow.",
+    cta: { label: "Learn more at privacy Page", href: "#" },
+  },
+  {
+    question: "Is Denker free to use?",
+    answer:
+      "Yes. You can get started with Denker for free and explore its core capabilities. As your needs grow, premium plans unlock more advanced features, higher usage limits, and additional integrations.",
+    cta: { label: "View Pricing Plan", href: "#" },
+  },
+  {
+    question: "How do I get started?",
+    answer:
+      "Getting started is simple. Download Denker, sign in, and start giving tasks using voice or text. Within minutes, Denker is ready to help you research, analyze, and execute work.",
+    cta: { label: "Download Denker", href: "#" },
+  },
 ];
 
 export function FAQ() {
@@ -33,7 +60,7 @@ export function FAQ() {
       data-name="Section - FAQ's"
       data-theme="light"
     >
-      <Container className="flex flex-col items-start gap-12 md:flex-row md:justify-between">
+      <Container className="faq-layout flex items-start gap-12">
         <h2 className="max-w-[320px] font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]">
           Frequently Asked Questions
         </h2>
@@ -75,6 +102,16 @@ export function FAQ() {
                     <Plus className="size-8 shrink-0 text-primary-600" />
                   )}
                 </button>
+
+                {isOpen && faq.cta && (
+                  <Button
+                    variant="primary"
+                    href={faq.cta.href}
+                    className="mt-6 h-10 px-4 text-base"
+                  >
+                    {faq.cta.label}
+                  </Button>
+                )}
               </div>
             );
           })}

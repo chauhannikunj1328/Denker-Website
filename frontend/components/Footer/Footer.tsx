@@ -47,13 +47,11 @@ export function Footer() {
                 height={16}
               />
             </div>
-            {/* NOTE: Figma uses placeholder Lorem ipsum copy here — swap for a
-                real company description. */}
             <p className="font-heading text-base font-medium leading-6 text-grey-500">
-              Lorem ipsum dolor sit amet consectetur. Dictum viverra non ante
-              dui integer a. Sapien porta in imperdiet dui. Donec congue
-              elementum libero id mauris amet dignissim eu. At quis ultrices
-              interdum integer odio morbi mauris est.
+              Work smarter with an AI coworker that researches, analyzes, and
+              executes tasks across your favorite tools. Built for founders
+              and product builders who want to get more done with less
+              effort.
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map(({ label, href, Icon }) => (
@@ -107,6 +105,15 @@ export function Footer() {
 
         <p className="w-full text-center font-heading text-base font-medium text-grey-500">
           © 2026 Denker AI. All rights reserved.
+        </p>
+
+        {/* Decorative watermark — set as text (not the Figma export image) so
+            it stays crisp at any size and doesn't need an asset file. */}
+        <p
+          aria-hidden
+          className="-mt-2 w-full overflow-hidden text-center font-heading text-[80px] leading-none font-bold whitespace-nowrap text-grey-100 select-none sm:text-[120px] md:text-[180px]"
+        >
+          Denker
         </p>
       </Container>
     </footer>

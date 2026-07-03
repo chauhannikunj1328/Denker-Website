@@ -22,6 +22,11 @@
 
   /* Denker brand palette (from Figma) */
   --color-primary-50: #effbf3;
+  /* No 200 step was defined in the palette handed off from Figma — the FAQ
+     card's active-state border referenced `border-primary-200` anyway,
+     which silently no-ops without a matching token (falls back to
+     currentColor). Interpolated between 50 and 400 to fill the gap. */
+  --color-primary-200: #bfe6cd;
   --color-primary-400: #4abf73;
   --color-primary-600: #1b9847;
   --color-primary-700: #157938;
@@ -169,5 +174,19 @@ body {
 @media (min-width: 1080px) {
   .trustbadges-more-card {
     grid-column: span 1 / span 1;
+  }
+}
+
+/* FAQ section: heading + card list switch from stacked to side-by-side at
+   1080px instead of Tailwind's md (768px) — a custom breakpoint, so a
+   dedicated class again avoids the arbitrary-variant cascade-order bug
+   documented above. */
+.faq-layout {
+  flex-direction: column;
+}
+@media (min-width: 1080px) {
+  .faq-layout {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
