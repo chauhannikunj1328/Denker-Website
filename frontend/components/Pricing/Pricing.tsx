@@ -106,9 +106,20 @@ export function Pricing() {
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-3 text-white">
               <p className="font-heading text-sm font-medium">PRO</p>
-              <div className="flex items-baseline gap-1">
-                <span className="font-heading text-4xl font-bold">€19</span>
-                <span className="font-body text-base">/ month</span>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-heading text-4xl font-bold">
+                    {yearly ? "€199" : "€19"}
+                  </span>
+                  <span className="font-body text-base">
+                    {yearly ? "/ year" : "/ month"}
+                  </span>
+                </div>
+                {yearly && (
+                  <span className="font-body text-sm text-white/80">
+                    ≈ €17/mo · 2 months free
+                  </span>
+                )}
               </div>
             </div>
             <p className="font-body text-base text-white">
