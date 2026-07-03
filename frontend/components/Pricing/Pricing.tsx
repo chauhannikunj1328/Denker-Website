@@ -62,7 +62,7 @@ export function Pricing() {
         </div>
       </div>
 
-      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {/* Free */}
         <div className="flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-800 bg-grey-900 p-8">
           <div className="flex flex-1 flex-col gap-6">
@@ -101,7 +101,8 @@ export function Pricing() {
         {/* Pro */}
         <div className="relative flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-primary-400 via-primary-600 to-primary-600 p-8">
           <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary-400 bg-grey-900 px-4 py-2 font-heading text-sm font-medium text-white">
-            ● Most Popular ●
+            <span className="align-middle text-[8px]">●</span> Most Popular{" "}
+            <span className="align-middle text-[8px]">●</span>
           </span>
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-3 text-white">
@@ -141,7 +142,7 @@ export function Pricing() {
         </div>
 
         {/* Max */}
-        <div className="relative flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-800 bg-grey-900 p-8">
+        <div className="relative flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-800 bg-grey-900 p-8 sm:col-span-2 md:col-span-1">
           <span className="absolute right-0 top-0 rounded-full bg-primary-600 px-4 py-2 font-heading text-sm font-medium text-grey-100">
             Coming Soon
           </span>
