@@ -48,13 +48,13 @@ export function Pricing() {
             role="switch"
             aria-checked={yearly}
             onClick={() => setYearly((v) => !v)}
-            className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${
+            className={`relative h-7 w-12 shrink-0 rounded-full transition-colors duration-300 ease-in-out ${
               yearly ? "bg-primary-600" : "bg-grey-700"
             }`}
           >
             <span
-              className={`absolute top-0.5 size-6 rounded-full bg-white transition-transform ${
-                yearly ? "translate-x-5" : "translate-x-0.5"
+              className={`absolute left-0.5 top-0.5 size-6 rounded-full bg-white shadow-sm transition-transform duration-300 ease-in-out ${
+                yearly ? "translate-x-5" : "translate-x-0"
               }`}
             />
           </button>
