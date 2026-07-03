@@ -190,3 +190,23 @@ body {
     justify-content: space-between;
   }
 }
+
+/* CTA card background — a tall, top-centered radial glow fading from dark
+   green through primary green out to white at the edges (from Figma). Kept
+   as a dedicated class since the multi-stop gradient is unwieldy as a
+   Tailwind arbitrary value. */
+.cta-radial-glow {
+  background-image: radial-gradient(
+    120% 100% at 50% 0%,
+    #093217 0%,
+    #0d4c23 12%,
+    #12652f 25%,
+    #1b9847 50%,
+    #38a55e 56%,
+    #54b275 62%,
+    #71bf8c 69%,
+    #8dcca3 75%,
+    #c6e5d1 87%,
+    #ffffff 100%
+  );
+}

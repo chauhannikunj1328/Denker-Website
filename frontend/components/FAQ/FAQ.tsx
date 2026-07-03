@@ -65,16 +65,20 @@ export function FAQ() {
           Frequently Asked Questions
         </h2>
 
-        <div className="flex w-full max-w-[720px] flex-col gap-2">
+        {/* max-w only applies once .faq-layout switches to a row (1080px+,
+            see globals.css) to leave room for the heading beside it — below
+            that it stacks under the heading, so it should fill the full
+            width instead of staying capped at 720px. */}
+        <div className="flex w-full min-[1080px]:max-w-[720px] flex-col gap-2">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
               <div
                 key={faq.question}
-                className={`w-full rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border p-8 transition-colors ${
+                className={`group w-full rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border p-8 transition-colors ${
                   isOpen
                     ? "border-primary-200 bg-gradient-to-br from-white to-primary-50"
-                    : "border-grey-150 bg-white"
+                    : "border-grey-150 bg-white hover:border-primary-200 hover:bg-gradient-to-br hover:from-white hover:to-primary-50"
                 }`}
               >
                 <button
@@ -84,8 +88,8 @@ export function FAQ() {
                 >
                   <div className="flex flex-col gap-2">
                     <p
-                      className={`font-heading text-2xl font-bold ${
-                        isOpen ? "text-primary-600" : "text-grey-950"
+                      className={`font-heading text-2xl font-bold transition-colors ${
+                        isOpen ? "text-primary-600" : "text-grey-950 group-hover:text-primary-600"
                       }`}
                     >
                       {faq.question}

@@ -31,11 +31,11 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer
-      className="flex w-full flex-col items-center bg-white px-6 pt-8 pb-6 sm:px-10 md:px-20"
+      className="flex w-full flex-col items-center border-t border-[#E8E8ED] bg-white px-6 pt-8 pb-0 sm:px-10 md:px-20"
       data-name="Section - Footer"
       data-theme="light"
     >
-      <Container className="flex flex-col items-start gap-6">
+      <Container className="@container flex flex-col items-start gap-6">
         <div className="flex w-full flex-col items-start justify-between gap-10 md:flex-row">
           <div className="flex w-full max-w-[480px] flex-col items-start gap-4">
             <div className="flex items-center gap-2">
@@ -108,10 +108,18 @@ export function Footer() {
         </p>
 
         {/* Decorative watermark — set as text (not the Figma export image) so
-            it stays crisp at any size and doesn't need an asset file. */}
+            it stays crisp at any size and doesn't need an asset file.
+
+            Font-size is in cqw (% of the @container above) instead of fixed
+            per-breakpoint px, so "Denker" always spans exactly the full
+            container width — width and height scale together (proportionally)
+            since both derive from the same font-size, at every viewport
+            width, not just 3 fixed snap points. h-[0.7em] + overflow-hidden
+            crops the box to 70% of that font-size, showing only the top 70%
+            of the glyphs. */}
         <p
           aria-hidden
-          className="-mt-2 w-full overflow-hidden text-center font-heading text-[80px] leading-none font-bold whitespace-nowrap text-grey-100 select-none sm:text-[120px] md:text-[180px]"
+          className="h-[0.7em] w-full overflow-hidden text-center font-heading text-[29.83cqw] leading-none font-bold whitespace-nowrap text-grey-50 select-none"
         >
           Denker
         </p>
