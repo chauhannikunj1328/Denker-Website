@@ -264,7 +264,7 @@ body {
 @media (min-width: 640px) and (max-width: 1079px) {
   .cta-image-left {
     width: 330px;
-    bottom: calc(-2%);
+    bottom: calc(-2% - 60px);
     left: -8%;
   }
 }
@@ -289,7 +289,7 @@ body {
 @media (min-width: 640px) and (max-width: 1079px) {
   .cta-image-right {
     width: 390px;
-    bottom: calc(-2%);
+    bottom: calc(-2% - 60px);
     right: -8%;
   }
 }
