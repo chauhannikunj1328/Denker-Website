@@ -10,7 +10,7 @@ export function CTABanner() {
       data-theme="light"
     >
       <Container>
-        <div className="cta-radial-glow relative flex w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:rounded-[24px] sm:px-10 sm:py-20 md:rounded-[32px] md:py-24">
+        <div className="cta-radial-glow relative flex h-[580px] w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:h-[500px] sm:rounded-[24px] sm:px-10 sm:py-20 md:h-auto md:rounded-[32px] md:py-24">
           <div className="flex max-w-[600px] flex-col items-center gap-2 text-center text-white">
             <h2 className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]">
               Built in Public. Trusted by Builders.
@@ -42,23 +42,22 @@ export function CTABanner() {
               on the left, Denker+Sales on the right) — each pair is already
               combined, rotated, and cursor-annotated in the source image, so
               they're placed as single assets rather than reconstructed with
-              CSS. Only shown at `lg`+ (1024px); below that the card is too
-              narrow for them alongside the centered heading/buttons without
-              redesigning their layout from scratch per breakpoint. */}
-          <div className="pointer-events-none absolute inset-0 z-10 hidden lg:block">
+              CSS. Shown at every breakpoint, sized down for mobile/tablet so
+              they still fit alongside the centered heading/buttons. */}
+          <div className="pointer-events-none absolute inset-0 z-10">
             <Image
               src="/images/cta/cta-left-side-image.png"
               alt=""
               width={1091}
               height={786}
-              className="absolute -bottom-[2%] left-[-3%] w-[315px] xl:w-[360px]"
+              className="absolute bottom-[calc(-2%-60px)] left-[-3%] w-[150px] sm:w-[220px] md:w-[315px] xl:w-[360px]"
             />
             <Image
               src="/images/cta/cta-right-side-image.png"
               alt=""
               width={1260}
               height={810}
-              className="absolute -bottom-[2%] right-[-3%] w-[375px] xl:w-[420px]"
+              className="absolute bottom-[calc(-2%-60px)] right-[-3%] w-[180px] sm:w-[260px] md:w-[375px] xl:w-[420px]"
             />
           </div>
         </div>
