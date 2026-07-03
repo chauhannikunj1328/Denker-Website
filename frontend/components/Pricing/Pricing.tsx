@@ -101,7 +101,8 @@ export function Pricing() {
         {/* Pro */}
         <div className="relative flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-gradient-to-br from-primary-400 via-primary-600 to-primary-600 p-8">
           <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary-400 bg-grey-900 px-4 py-2 font-heading text-sm font-medium text-white">
-            ● Most Popular ●
+            <span className="align-middle text-[8px]">●</span> Most Popular{" "}
+            <span className="align-middle text-[8px]">●</span>
           </span>
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-3 text-white">
