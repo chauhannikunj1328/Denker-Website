@@ -11,7 +11,7 @@ export function CTABanner() {
     >
       <Container>
         <div className="cta-radial-glow cta-card-height relative flex w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:rounded-[24px] sm:px-10 sm:py-20 md:rounded-[32px] md:py-24">
-          <div className="flex max-w-[600px] flex-col items-center gap-2 text-center text-white">
+          <div className="relative z-20 flex max-w-[600px] flex-col items-center gap-2 text-center text-white">
             <h2 className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]">
               Built in Public. Trusted by Builders.
             </h2>
@@ -21,7 +21,7 @@ export function CTABanner() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="relative z-20 flex items-center gap-2">
             <Button
               variant="primary"
               href="#reach-out"
