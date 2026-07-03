@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* Only apply hover: styles on hover-capable devices at the desktop breakpoint
+   (>=lg / 1024px). This removes all hover effects on mobile and tablet, and
+   avoids sticky/left-over hover states on touch screens. */
+@custom-variant hover {
+  @media (hover: hover) and (min-width: 64rem) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #111113;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Denker brand palette (from Figma) */
+  --color-primary-50: #effbf3;
+  --color-primary-400: #4abf73;
+  --color-primary-600: #1b9847;
+  --color-primary-700: #157938;
+  --color-primary-800: #0f5c2a;
+  --color-grey-950: #111113;
+  --color-grey-900: #1d1d1f;
+  --color-grey-800: #2c2c2e;
+  --color-grey-700: #3d3d40;
+  --color-grey-500: #6e6e73;
+  --color-grey-400: #98989d;
+  --color-grey-300: #a1a1a6;
+  --color-grey-200: #d1d1d6;
+  --color-grey-150: #dcdce1;
+  --color-grey-100: #e5e5e7;
+  --color-grey-50: #f5f5f7;
+
+  /* Elevation/MD · button hover (from Figma) */
+  --shadow-btn-hover: 0 4px 8px -2px rgba(10, 22, 40, 0.1),
+    0 0 2px 0 rgba(10, 22, 40, 0.06);
+
+  --font-heading: "Satoshi", var(--font-sans);
+  --font-body: var(--font-roboto), var(--font-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+/* CardCarousel card sizing — discrete per-breakpoint values (not fluid
+   scaling), since each breakpoint has its own fixed height. Width is
+   per-card via the --card-w-* custom properties set inline; height is the
+   same across every card so it's hardcoded here. Breakpoints match
+   Tailwind's default sm (640px) / md (768px). */
+.carousel-card-width {
+  width: var(--card-w-mobile);
+}
+@media (min-width: 640px) {
+  .carousel-card-width {
+    width: var(--card-w-tablet);
+  }
+}
+@media (min-width: 768px) {
+  .carousel-card-width {
+    width: var(--card-w-desktop);
+  }
+}
+
+.carousel-card-height {
+  height: 192px;
+}
+@media (min-width: 640px) {
+  .carousel-card-height {
+    height: 360px;
+  }
+}
+@media (min-width: 768px) {
+  .carousel-card-height {
+    height: 495px;
+  }
+}
+
+/* Hero dashboard mockup's top-corner radius — responsive, top corners only.
+   Uses a dedicated class (rather than Tailwind's rounded-t-[...] arbitrary
+   value) because that combination wasn't compiling correctly here. */
+.hero-dashboard-radius {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+@media (min-width: 640px) {
+  .hero-dashboard-radius {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+  }
+}
+@media (min-width: 768px) {
+  .hero-dashboard-radius {
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+  }
+}
+
+/* TrustBadges integrations grid — 2/3/4/5 columns across mobile, tablet,
+   768–1080px, and 1080px+. Uses a dedicated class (rather than an arbitrary
+   `min-[1080px]:` Tailwind variant) because that variant compiled into the
+   cascade in the wrong order relative to `md:`, so `md:grid-cols-4` kept
+   winning even above 1080px — the same class of bug as the hero radius
+   above, just with a custom breakpoint instead of a directional radius. */
+.trustbadges-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .trustbadges-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .trustbadges-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1080px) {
+  .trustbadges-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* The trailing "More than 500+ integrations" card: with 14 integration
+   cards ahead of it, both the 2-column (mobile) and 4-column (768–1080px)
+   layouts leave it as the sole occupant of a gap at the end of the last
+   row — span 2 columns in those ranges so it fills the gap instead of
+   leaving a slot empty. At 3 and 5 columns (tablet, 1080px+) it already
+   lands as the natural last item, so it stays a single column there.
+
+   At every width, aspect-ratio is overridden to stretch (height: 100%)
+   instead of using the `aspect-video` Tailwind utility on the same element:
+   aspect-video sizes off the card's own box, so (a) when spanning 2 columns
+   its doubled width would make it disproportionately tall, and (b) even at
+   a single column, its 3-line copy needs a few px more than aspect-video's
+   16:9 height allows, leaving it ~4px shorter than its aspect-video
+   row-mates (visibly misaligned). Stretching to 100% instead makes it
+   match the row's actual height in every case — driven by its own content
+   when it's alone in the row (mobile), or by the aspect-video siblings
+   sharing that row otherwise. !important is needed to beat aspect-video's
+   utility-layer specificity. Every range is bounded (min+max, or the final
+   one unbounded above) so exactly one block is ever active. */
+.trustbadges-more-card {
+  grid-column: span 2 / span 2;
+  aspect-ratio: auto !important;
+  height: 100%;
+}
+@media (min-width: 640px) and (max-width: 767px) {
+  .trustbadges-more-card {
+    grid-column: span 1 / span 1;
+  }
+}
+@media (min-width: 768px) and (max-width: 1079px) {
+  .trustbadges-more-card {
+    grid-column: span 2 / span 2;
+  }
+}
+@media (min-width: 1080px) {
+  .trustbadges-more-card {
+    grid-column: span 1 / span 1;
+  }
+}
