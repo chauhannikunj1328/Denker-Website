@@ -10,7 +10,7 @@ export function CTABanner() {
       data-theme="light"
     >
       <Container>
-        <div className="cta-radial-glow relative flex h-[580px] w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:h-[500px] sm:rounded-[24px] sm:px-10 sm:py-20 md:h-auto md:rounded-[32px] md:py-24">
+        <div className="cta-radial-glow cta-card-height relative flex w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:rounded-[24px] sm:px-10 sm:py-20 md:rounded-[32px] md:py-24">
           <div className="flex max-w-[600px] flex-col items-center gap-2 text-center text-white">
             <h2 className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]">
               Built in Public. Trusted by Builders.
@@ -50,14 +50,14 @@ export function CTABanner() {
               alt=""
               width={1091}
               height={786}
-              className="absolute bottom-[calc(-2%+60px)] left-[-3%] w-[180px] sm:bottom-[calc(-2%)] sm:w-[330px] md:bottom-[calc(-2%-60px)] md:w-[315px] xl:w-[360px]"
+              className="cta-image-left absolute"
             />
             <Image
               src="/images/cta/cta-right-side-image.png"
               alt=""
               width={1260}
               height={810}
-              className="absolute bottom-[calc(-2%+60px)] right-[-3%] w-[216px] sm:bottom-[calc(-2%)] sm:w-[390px] md:bottom-[calc(-2%-60px)] md:w-[375px] xl:w-[420px]"
+              className="cta-image-right absolute"
             />
           </div>
         </div>

@@ -210,3 +210,72 @@ body {
     #ffffff 100%
   );
 }
+
+/* CTA card height and decorative image position/size — "tablet" runs the
+   full 640–1079px band (not Tailwind's sm→md 640–768px split) so it stays
+   consistent with the custom 1080px breakpoint used elsewhere on this page
+   (TrustBadges, FAQ); "desktop" starts fresh at 1080px. Dedicated classes
+   for the same cascade-order reason as those. */
+.cta-card-height {
+  height: 580px;
+}
+@media (min-width: 640px) and (max-width: 1079px) {
+  .cta-card-height {
+    height: 500px;
+  }
+}
+@media (min-width: 1080px) {
+  .cta-card-height {
+    height: auto;
+  }
+}
+
+.cta-image-left {
+  width: 180px;
+  bottom: calc(-2% + 60px);
+  left: -20%;
+}
+@media (min-width: 640px) and (max-width: 1079px) {
+  .cta-image-left {
+    width: 330px;
+    bottom: calc(-2%);
+    left: -8%;
+  }
+}
+@media (min-width: 1080px) {
+  .cta-image-left {
+    width: 315px;
+    bottom: calc(-2% - 60px);
+    left: -3%;
+  }
+}
+@media (min-width: 1280px) {
+  .cta-image-left {
+    width: 360px;
+  }
+}
+
+.cta-image-right {
+  width: 216px;
+  bottom: calc(-2% + 60px);
+  right: -20%;
+}
+@media (min-width: 640px) and (max-width: 1079px) {
+  .cta-image-right {
+    width: 390px;
+    bottom: calc(-2%);
+    right: -8%;
+  }
+}
+@media (min-width: 1080px) {
+  .cta-image-right {
+    width: 375px;
+    bottom: calc(-2% - 60px);
+    right: -3%;
+  }
+}
+@media (min-width: 1280px) {
+  .cta-image-right {
+    width: 420px;
+  }
+}
