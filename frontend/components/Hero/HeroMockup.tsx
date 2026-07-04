@@ -2,98 +2,84 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Play } from "@phosphor-icons/react/dist/ssr";
-import { motion, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 
 // TODO: replace with the real hero dashboard video (and a matching poster
 // image) when available. Until then this reuses the walkthrough placeholder.
 const HERO_VIDEO_SRC =
   "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
-// Total scroll height (in viewport heights) the pinned animation occupies.
-const TRACK_VH = 260;
-// Backward tilt (degrees) of the 2.5D look at the very start.
-const START_ANGLE = 35;
-// Seconds after the mockup flattens before the video starts.
+const START_ANGLE = 35; // 2.5D backward tilt at rest
+const HEADER_OFFSET = 96; // px from the viewport top where the mockup pins
+const TILT_RANGE = 360; // px of scroll over which it flattens (1st animation)
+const PIN_SCROLL = 1400; // px of scroll for the fullscreen scale (2nd animation)
 const VIDEO_START_DELAY_MS = 5000;
 
-// Scroll progress breakpoints (0 = pin start, 1 = pin end):
-const P_FLAT = 0.15; // 1st animation: tilt has flattened to 2D
-const P_HOLD1 = 0.26; // brief flat hold (video plays here) before it grows
-const P_FULL = 0.52; // 2nd animation: reached full-screen scale
-const P_HOLD2 = 0.62; // holds full screen
-const P_ZERO = 0.9; // fully shrunk to 0
-
 /**
- * Pinned hero dashboard mockup. As the user scrolls through this section the
- * mockup (fixed/centered in the viewport) runs a timeline:
- * 2.5D tilt → flatten to 2D → scale up to fill the screen → shrink back to 0,
- * revealing the next section. The video plays once a short while after it
- * flattens, and holds on its last frame with a replay button. Everything is
- * driven purely by scroll position, so scrolling back up reverses it.
- * (Uses position: fixed rather than sticky because the body's overflow-x:hidden
- * turns the body into the scroll container and breaks sticky pinning.)
+ * Hero dashboard mockup. It sits in the hero at rest (visible immediately,
+ * tilted 2.5D). A fixed "stage" tracks that in-flow slot so it looks in place;
+ * as you scroll it flattens (1st animation), then pins below the header and
+ * scales up to fill the screen and shrinks back to 0 (2nd animation). Driven
+ * purely by scroll position, so it fully reverses on the way up.
  */
 export function HeroMockup() {
   const reduceMotion = useReducedMotion();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const mockupRef = useRef<HTMLDivElement>(null);
+  const slotRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const fullScaleRef = useRef(2.2);
   const playedRef = useRef(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [ended, setEnded] = useState(false);
-
-  const progress = useMotionValue(0);
-  const opacity = useMotionValue(0);
-
-  const rotateX = useTransform(progress, (p) =>
-    p <= P_FLAT ? START_ANGLE * (1 - p / P_FLAT) : 0,
-  );
-  const scale = useTransform(progress, (p) => {
-    const FULL = fullScaleRef.current;
-    if (p <= P_FLAT) return 0.85 + 0.15 * (p / P_FLAT); // 0.85 → 1 (1st anim)
-    if (p <= P_HOLD1) return 1; // hold flat
-    if (p <= P_FULL) return 1 + (FULL - 1) * ((p - P_HOLD1) / (P_FULL - P_HOLD1)); // 1 → FULL (2nd anim)
-    if (p <= P_HOLD2) return FULL; // hold full screen
-    if (p <= P_ZERO) return FULL * (1 - (p - P_HOLD2) / (P_ZERO - P_HOLD2)); // FULL → 0
-    return 0;
-  });
-  // Keep a constant *visual* 32px corner radius even as the mockup scales
-  // (the transform would otherwise enlarge the corners), so it stays rounded
-  // throughout the animation.
-  const radius = useTransform(scale, (s) => (s > 0.01 ? 32 / s : 32));
 
   useEffect(() => {
     if (reduceMotion) return;
     let raf = 0;
     const loop = () => {
-      const track = trackRef.current;
-      const mock = mockupRef.current;
-      if (track && mock) {
+      const slot = slotRef.current;
+      const stage = stageRef.current;
+      if (slot && stage) {
+        const rect = slot.getBoundingClientRect();
+        const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const top = track.offsetTop;
-        const travel = Math.max(1, track.offsetHeight - vh);
-        const raw = window.scrollY - top;
-        const p = Math.min(1, Math.max(0, raw / travel));
+        const w = rect.width;
+        const h = w * (9 / 16);
+        const pinTop = HEADER_OFFSET;
 
-        // Full-screen cover scale from the mockup's (unscaled) layout size.
-        const w = mock.offsetWidth;
-        const h = mock.offsetHeight;
-        if (w && h) {
-          fullScaleRef.current = Math.max(window.innerWidth / w, vh / h);
+        // Stage follows the in-flow slot until the slot's top reaches the pin
+        // line, then it pins there.
+        const top = Math.max(pinTop, rect.top);
+        const past = Math.max(0, pinTop - rect.top); // scroll distance past the pin
+
+        // 1st animation — tilt flattens as the slot approaches the pin line.
+        const tilt =
+          past > 0
+            ? 0
+            : START_ANGLE * Math.min(1, Math.max(0, (rect.top - pinTop) / TILT_RANGE));
+
+        // 2nd animation — once pinned, scale up to cover the screen then shrink.
+        const FULL = Math.max(vw / w, vh / h);
+        const q = Math.min(1, past / PIN_SCROLL);
+        let scale = 1;
+        if (q > 0) {
+          if (q <= 0.4) scale = 1 + (FULL - 1) * (q / 0.4);
+          else if (q <= 0.52) scale = FULL;
+          else if (q <= 0.85) scale = FULL * (1 - (q - 0.52) / 0.33);
+          else scale = 0;
         }
 
-        progress.set(p);
-        // Fully visible the instant the pin starts (no start fade); fade out
-        // only at the very end so the next section is revealed smoothly.
-        let op = 0;
-        if (raw >= 0) {
-          op = p <= P_ZERO ? 1 : Math.max(0, 1 - (p - P_ZERO) / (1 - P_ZERO));
-        }
-        opacity.set(op);
+        stage.style.top = `${top}px`;
+        stage.style.left = `${rect.left}px`;
+        stage.style.width = `${w}px`;
+        stage.style.height = `${h}px`;
+        stage.style.transformOrigin = "center top";
+        stage.style.transform = `perspective(1200px) scale(${scale}) rotateX(${tilt}deg)`;
+        // Keep a constant visual 32px radius despite the scale.
+        stage.style.borderRadius = `${scale > 0.01 ? 32 / scale : 32}px`;
+        // Hidden once fully shrunk or entirely below the fold.
+        stage.style.opacity = q >= 1 || rect.top > vh ? "0" : "1";
 
-        // Play the video once, a short delay after the mockup flattens.
-        if (!playedRef.current && p >= P_FLAT) {
+        // Play the video once, a short delay after it flattens.
+        if (!playedRef.current && rect.top <= pinTop + 2) {
           playedRef.current = true;
           window.setTimeout(() => {
             const v = videoRef.current;
@@ -109,7 +95,7 @@ export function HeroMockup() {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [reduceMotion, progress, opacity]);
+  }, [reduceMotion]);
 
   const replay = () => {
     const v = videoRef.current;
@@ -119,74 +105,76 @@ export function HeroMockup() {
     v.play().catch(() => {});
   };
 
-  // Reduced motion: a simple static mockup, no scroll animation or autoplay.
+  const mockupInner = (
+    <>
+      <img
+        src="/images/hero/dashboard-glow.svg"
+        alt=""
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover transition-opacity duration-500 ${
+          hasPlayed ? "opacity-0" : "opacity-80"
+        }`}
+      />
+      <video
+        ref={videoRef}
+        src={HERO_VIDEO_SRC}
+        muted
+        playsInline
+        preload="metadata"
+        aria-hidden
+        onEnded={() => setEnded(true)}
+        className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
+          hasPlayed ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      {ended && (
+        <div className="pointer-events-auto absolute inset-0 z-10 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={replay}
+            aria-label="Replay video"
+            className="flex size-16 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 md:size-20"
+          >
+            <Play weight="fill" className="ml-1 size-7 md:size-8" />
+          </button>
+        </div>
+      )}
+    </>
+  );
+
+  // Reduced motion: a plain, static mockup with native controls.
   if (reduceMotion) {
     return (
-      <div className="w-full px-6 sm:px-10 md:px-20">
-        <div className="relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
-          <video
-            src={HERO_VIDEO_SRC}
-            muted
-            playsInline
-            preload="metadata"
-            controls
-            className="size-full object-cover"
-          />
-        </div>
+      <div className="mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
+        <video
+          src={HERO_VIDEO_SRC}
+          muted
+          playsInline
+          preload="metadata"
+          controls
+          className="size-full object-cover"
+        />
       </div>
     );
   }
 
   return (
     <>
-      {/* Scroll track: reserves the scroll distance for the pinned timeline. */}
-      <div ref={trackRef} aria-hidden className="bg-grey-950" style={{ height: `${TRACK_VH}vh` }} />
+      {/* In-flow slot: reserves the mockup's resting size and the extra scroll
+          distance the pinned scale phase needs. */}
+      <div className="w-full">
+        <div ref={slotRef} className="mx-auto aspect-video w-full max-w-[1000px]" />
+        <div aria-hidden style={{ height: `${PIN_SCROLL}px` }} />
+      </div>
 
-      {/* Fixed/pinned stage, centered in the viewport. Dark background matches
-          the hero so the pinned region never flashes white. */}
-      <motion.div
-        style={{ opacity }}
-        className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center bg-grey-950 px-6"
+      {/* Fixed stage that tracks the slot, then pins and scales. */}
+      <div
+        ref={stageRef}
+        className="fixed z-30 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
+        style={{ top: 0, left: 0, borderRadius: 32 }}
       >
-        <motion.div
-          ref={mockupRef}
-          style={{ rotateX, scale, borderRadius: radius, perspective: 1000 }}
-          className="hero-dashboard-radius relative aspect-video w-full max-w-[1000px] overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
-        >
-          <img
-            src="/images/hero/dashboard-glow.svg"
-            alt=""
-            aria-hidden
-            className={`pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover transition-opacity duration-500 ${
-              hasPlayed ? "opacity-0" : "opacity-80"
-            }`}
-          />
-          <video
-            ref={videoRef}
-            src={HERO_VIDEO_SRC}
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden
-            onEnded={() => setEnded(true)}
-            className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
-              hasPlayed ? "opacity-100" : "opacity-0"
-            }`}
-          />
-          {ended && (
-            <div className="pointer-events-auto absolute inset-0 z-10 flex items-center justify-center">
-              <button
-                type="button"
-                onClick={replay}
-                aria-label="Replay video"
-                className="flex size-16 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 md:size-20"
-              >
-                <Play weight="fill" className="ml-1 size-7 md:size-8" />
-              </button>
-            </div>
-          )}
-        </motion.div>
-      </motion.div>
+        {mockupInner}
+      </div>
     </>
   );
 }

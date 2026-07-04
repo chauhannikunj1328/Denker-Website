@@ -1,3 +1,4 @@
+import { HeroMockup } from "@/components/Hero/HeroMockup";
 import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -34,6 +35,8 @@ export function Hero() {
             Download Denker
           </Button>
         </FadeIn>
+
+        <HeroMockup />
       </Container>
     </section>
   );
