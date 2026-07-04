@@ -7,7 +7,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function Hero() {
   return (
     <section
-      className="relative flex w-full flex-col items-center overflow-hidden bg-grey-950 px-6 pt-32 pb-0 sm:px-10 sm:pt-40 md:px-20"
+      className="relative flex w-full flex-col items-center overflow-hidden bg-grey-950 px-6 pt-32 pb-[100px] sm:px-10 sm:pt-40 md:px-20"
       data-name="Section - Hero"
       data-theme="dark"
     >

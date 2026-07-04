@@ -13,7 +13,7 @@ const HERO_VIDEO_SRC =
 // three scroll-wheel notches.
 const FLATTEN_DISTANCE = 450;
 // How far the mockup is tilted back (degrees) when at the very top: the 2.5D look.
-const START_ANGLE = 26;
+const START_ANGLE = 35;
 // Seconds to wait after the mockup is flat before the video starts.
 const VIDEO_START_DELAY_MS = 5000;
 
