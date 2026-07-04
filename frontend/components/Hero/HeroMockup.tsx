@@ -102,7 +102,7 @@ export function HeroMockup() {
         style={
           reduceMotion
             ? undefined
-            : { rotateX, scale, transformOrigin: "center bottom" }
+            : { rotateX, scale, transformOrigin: "center top" }
         }
         className="hero-dashboard-radius absolute inset-0 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
       >

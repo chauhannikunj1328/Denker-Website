@@ -3,6 +3,7 @@ import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { LOGIN_URL } from "@/lib/links";
 
 export function Hero() {
   return (
@@ -27,7 +28,7 @@ export function Hero() {
           delay={0.15}
           className="relative z-10 flex w-full flex-col items-stretch justify-center gap-2 sm:flex-row sm:items-start"
         >
-          <Button variant="primary" href="#reach-out" className="w-full sm:w-auto">
+          <Button variant="primary" href={LOGIN_URL} className="w-full sm:w-auto">
             Get Started
           </Button>
           <Button variant="secondary" href="#" className="w-full sm:w-auto">
