@@ -84,22 +84,16 @@ export function FAQ() {
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? null : i)}
+                  aria-expanded={isOpen}
                   className="flex w-full items-start justify-between gap-6 text-left"
                 >
-                  <div className="flex flex-col gap-2">
-                    <p
-                      className={`font-heading text-2xl font-bold transition-colors ${
-                        isOpen ? "text-primary-600" : "text-grey-950 group-hover:text-primary-600"
-                      }`}
-                    >
-                      {faq.question}
-                    </p>
-                    {isOpen && faq.answer && (
-                      <p className="font-heading text-base font-medium leading-6 text-grey-950">
-                        {faq.answer}
-                      </p>
-                    )}
-                  </div>
+                  <p
+                    className={`font-heading text-2xl font-bold transition-colors ${
+                      isOpen ? "text-primary-600" : "text-grey-950 group-hover:text-primary-600"
+                    }`}
+                  >
+                    {faq.question}
+                  </p>
                   {isOpen ? (
                     <Minus className="size-8 shrink-0 text-primary-600" />
                   ) : (
@@ -107,15 +101,35 @@ export function FAQ() {
                   )}
                 </button>
 
-                {isOpen && faq.cta && (
-                  <Button
-                    variant="primary"
-                    href={faq.cta.href}
-                    className="mt-6 h-10 px-4 text-base"
+                {/* Collapsible answer — height animates via the grid
+                    0fr → 1fr trick; the inner content fades in with it. */}
+                <div
+                  className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div
+                    className={`overflow-hidden transition-opacity duration-300 ease-out ${
+                      isOpen ? "opacity-100" : "opacity-0"
+                    }`}
                   >
-                    {faq.cta.label}
-                  </Button>
-                )}
+                    {faq.answer && (
+                      <p className="pt-2 font-heading text-base font-medium leading-6 text-grey-950">
+                        {faq.answer}
+                      </p>
+                    )}
+                    {faq.cta && (
+                      <Button
+                        variant="primary"
+                        href={faq.cta.href}
+                        tabIndex={isOpen ? 0 : -1}
+                        className="mt-6 h-10 px-4 text-base"
+                      >
+                        {faq.cta.label}
+                      </Button>
+                    )}
+                  </div>
+                </div>
               </div>
             );
           })}
