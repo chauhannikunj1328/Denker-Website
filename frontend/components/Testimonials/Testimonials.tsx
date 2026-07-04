@@ -91,12 +91,7 @@ export function Testimonials() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
-                className={cn(
-                  "flex w-[280px] shrink-0 select-none flex-col justify-between gap-8 rounded-2xl border border-grey-150 bg-grey-50 p-6 sm:w-[380px] md:w-[435px]",
-                  testimonial.autoHeight
-                    ? "h-auto"
-                    : "h-[300px] sm:h-[340px] md:h-[376px]"
-                )}
+                className="flex h-auto w-[280px] shrink-0 select-none flex-col justify-between gap-8 rounded-2xl border border-grey-150 bg-grey-50 p-6 sm:w-[380px] md:w-[435px]"
               >
                 <p className="whitespace-pre-line font-heading text-lg font-medium leading-7 text-grey-700 sm:text-xl sm:leading-8 md:text-2xl md:leading-[32px]">
                   {testimonial.text}
