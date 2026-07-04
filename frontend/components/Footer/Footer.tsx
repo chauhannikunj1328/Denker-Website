@@ -19,12 +19,12 @@ const pageLinks = [
 ];
 const infoLinks = ["Contact", "Privacy", "Terms of use", "Cookies"];
 
-// Social links — update `href` with the real destinations when available.
+// Social links — destinations mirror the Reach Out section.
 const socialLinks = [
-  { label: "LinkedIn", href: "#", Icon: LinkedinLogo },
-  { label: "X (Twitter)", href: "#", Icon: XLogo },
-  { label: "YouTube", href: "#", Icon: YoutubeLogo },
-  { label: "Email", href: "#", Icon: Envelope },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/denkerai/", Icon: LinkedinLogo },
+  { label: "X (Twitter)", href: "https://x.com/Denker_AI", Icon: XLogo },
+  { label: "YouTube", href: "https://www.youtube.com/@DenkerAI", Icon: YoutubeLogo },
+  { label: "Email", href: "mailto:jane@denker.ai", Icon: Envelope },
   { label: "Message us", href: "#", Icon: ChatCircle },
 ];
 
@@ -54,16 +54,21 @@ export function Footer() {
               effort.
             </p>
             <div className="flex items-center gap-4">
-              {socialLinks.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="text-grey-950 transition-colors hover:text-primary-600"
-                >
-                  <Icon weight="regular" size={24} />
-                </a>
-              ))}
+              {socialLinks.map(({ label, href, Icon }) => {
+                const external = href.startsWith("http");
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="text-grey-950 transition-colors hover:text-primary-600"
+                  >
+                    <Icon weight="regular" size={24} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
