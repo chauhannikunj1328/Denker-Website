@@ -143,7 +143,7 @@ export function Pricing() {
 
         {/* Max */}
         <div className="pricing-max relative flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-800 bg-grey-900 p-8">
-          <span className="absolute right-0 top-0 rounded-full bg-primary-600 px-4 py-2 font-heading text-sm font-medium text-grey-100">
+          <span className="absolute right-5 top-5 rounded-full bg-primary-600 px-4 py-2 font-heading text-sm font-medium text-grey-100">
             Coming Soon
           </span>
           <div className="flex flex-1 flex-col gap-6">
