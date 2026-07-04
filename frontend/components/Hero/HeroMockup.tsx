@@ -58,7 +58,10 @@ export function HeroMockup() {
     if (p <= P_ZERO) return FULL * (1 - (p - P_HOLD2) / (P_ZERO - P_HOLD2)); // FULL → 0
     return 0;
   });
-  const radius = useTransform(progress, [P_HOLD1, P_FULL], [32, 0], { clamp: true });
+  // Keep a constant *visual* 32px corner radius even as the mockup scales
+  // (the transform would otherwise enlarge the corners), so it stays rounded
+  // throughout the animation.
+  const radius = useTransform(scale, (s) => (s > 0.01 ? 32 / s : 32));
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -81,9 +84,13 @@ export function HeroMockup() {
         }
 
         progress.set(p);
-        // Visible only while the pin is active; fade at the very start.
-        const vis = raw < 0 ? 0 : Math.min(1, raw / (travel * 0.03));
-        opacity.set(p >= 1 ? 0 : vis);
+        // Fully visible the instant the pin starts (no start fade); fade out
+        // only at the very end so the next section is revealed smoothly.
+        let op = 0;
+        if (raw >= 0) {
+          op = p <= P_ZERO ? 1 : Math.max(0, 1 - (p - P_ZERO) / (1 - P_ZERO));
+        }
+        opacity.set(op);
 
         // Play the video once, a short delay after the mockup flattens.
         if (!playedRef.current && p >= P_FLAT) {
