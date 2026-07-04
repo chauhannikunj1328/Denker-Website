@@ -33,7 +33,7 @@ export function CTABanner() {
             <Button
               variant="secondary"
               href="#"
-              className="border-white bg-transparent hover:border-grey-100 hover:bg-white/10"
+              className="border-white bg-transparent backdrop-blur-[24px] hover:border-grey-100 hover:bg-white/10"
             >
               Download Denker
             </Button>
