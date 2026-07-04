@@ -20,7 +20,7 @@ const pageLinks = [
 const infoLinks = [
   { label: "Contact", href: "#" },
   { label: "Privacy", href: "https://www.denker.ai/privacy" },
-  { label: "Terms of use", href: "#" },
+  { label: "Terms of use", href: "https://www.denker.ai/terms" },
   { label: "Cookies", href: "#" },
 ];
 
