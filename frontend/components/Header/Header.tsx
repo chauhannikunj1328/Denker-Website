@@ -272,7 +272,9 @@ export function Header() {
 function PeerlistHoverPill({ isLight }: { isLight: boolean }) {
   return (
     <a
-      href="#"
+      href="https://peerlist.io/company/denker_ai"
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label="Peerlist"
       className={cn(
         "group flex h-16 max-h-16 items-center overflow-hidden rounded-full p-2 backdrop-blur-md transition-colors",
@@ -326,7 +328,9 @@ function PeerlistBadge({
 }) {
   return (
     <a
-      href="#"
+      href="https://peerlist.io/company/denker_ai"
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label="Peerlist"
       tabIndex={tabIndex}
       className={cn(

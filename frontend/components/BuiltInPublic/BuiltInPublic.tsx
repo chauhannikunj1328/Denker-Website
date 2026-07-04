@@ -1,10 +1,19 @@
+import type { ElementType, ReactNode } from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
 
-const cards = [
+type BuiltInPublicCard = {
+  label: string;
+  href?: string;
+  icon: string;
+  content: ReactNode;
+};
+
+const cards: BuiltInPublicCard[] = [
   {
     label: "Peerlist",
+    href: "https://peerlist.io/company/denker_ai",
     icon: "/images/built-in-public/peerlist-icon.svg",
     content: (
       <Image
@@ -64,12 +73,18 @@ export function BuiltInPublic() {
             side by side, Betalist spans both columns below them. Desktop: all
             3 in a single row. */}
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card) => (
-            <div
+          {cards.map((card) => {
+            const Wrapper: ElementType = card.href ? "a" : "div";
+            return (
+            <Wrapper
               key={card.label}
+              {...(card.href
+                ? { href: card.href, target: "_blank", rel: "noopener noreferrer" }
+                : {})}
               className={cn(
                 "flex flex-col overflow-hidden rounded-[20px] border border-white/10 bg-grey-900 sm:rounded-[24px] md:rounded-[32px]",
-                card.label === "Betalist" && "md:col-span-2 lg:col-span-1"
+                card.label === "Betalist" && "md:col-span-2 lg:col-span-1",
+                card.href && "transition-colors hover:border-white/25"
               )}
             >
               {/* aspect-ratio (not a fixed px height) so the image area
@@ -92,8 +107,9 @@ export function BuiltInPublic() {
                   {card.label}
                 </p>
               </div>
-            </div>
-          ))}
+            </Wrapper>
+            );
+          })}
         </div>
       </Container>
     </section>
