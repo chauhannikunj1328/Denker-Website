@@ -85,6 +85,11 @@ export function HeroMockup() {
         }
         scale = Math.max(0, scale);
 
+        // Fade out over the final stretch so it dissolves away at the end
+        // instead of simply popping out of existence.
+        const FADE_START = 0.78;
+        const opacity = elTop > vh ? 0 : q >= FADE_START ? Math.max(0, 1 - (q - FADE_START) / (1 - FADE_START)) : 1;
+
         stage.style.top = `${top}px`;
         stage.style.left = `${rect.left}px`;
         stage.style.width = `${w}px`;
@@ -93,8 +98,7 @@ export function HeroMockup() {
         stage.style.transform = `perspective(1200px) scale(${scale}) rotateX(${tilt}deg)`;
         // Keep a constant visual 32px radius despite the scale.
         stage.style.borderRadius = `${scale > 0.01 ? 32 / scale : 32}px`;
-        // Hidden once fully shrunk or entirely below the fold.
-        stage.style.opacity = scale <= 0.001 || elTop > vh ? "0" : "1";
+        stage.style.opacity = String(opacity);
 
         // Play the video once, a short delay after it flattens.
         if (!playedRef.current && elTop <= pinTop + 2) {
