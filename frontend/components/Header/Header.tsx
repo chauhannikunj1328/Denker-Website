@@ -13,7 +13,7 @@ const navLinks = [
   { label: "Docs", href: "https://www.denker.ai/docs" },
   { label: "Blog", href: "https://www.denker.ai/blog" },
   { label: "Community", href: "#reach-out" },
-];
+].map((link) => ({ ...link, external: link.href.startsWith("http") }));
 
 export function Header() {
   const wrapperRef = useRef<HTMLDivElement>(null);

@@ -16,7 +16,7 @@ const pageLinks = [
   { label: "Blog", href: "https://www.denker.ai/blog" },
   { label: "Traction", href: "https://www.denker.ai/traction" },
   { label: "Community", href: "#reach-out" },
-];
+].map((link) => ({ ...link, external: link.href.startsWith("http") }));
 const infoLinks = [
   { label: "Contact", href: "#" },
   { label: "Privacy", href: "https://www.denker.ai/privacy" },
