@@ -288,7 +288,8 @@ body {
 }
 
 .cta-image-left {
-  width: 180px;
+  width: 360px;
+  max-width: none;
   bottom: calc(-2% + 60px);
   left: -20%;
 }
@@ -313,7 +314,8 @@ body {
 }
 
 .cta-image-right {
-  width: 216px;
+  width: 432px;
+  max-width: none;
   bottom: calc(-2% + 60px);
   right: -20%;
 }
