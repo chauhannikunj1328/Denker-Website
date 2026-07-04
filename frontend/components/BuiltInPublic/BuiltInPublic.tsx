@@ -26,6 +26,7 @@ const cards: BuiltInPublicCard[] = [
   },
   {
     label: "Product Hunt",
+    href: "https://www.producthunt.com/products/denker?launch=denker",
     icon: "/images/built-in-public/producthunt-icon.svg",
     content: (
       <Image

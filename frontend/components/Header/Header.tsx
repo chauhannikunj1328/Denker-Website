@@ -297,7 +297,9 @@ function PeerlistHoverPill({ isLight }: { isLight: boolean }) {
 function ProductHuntHoverPill() {
   return (
     <a
-      href="#"
+      href="https://www.producthunt.com/products/denker?launch=denker"
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label="Product Hunt"
       className="group flex h-16 max-h-16 items-center overflow-hidden rounded-full bg-[#ff6154]/10 p-2 backdrop-blur-md transition-colors hover:bg-[#ff6154]/15"
     >
@@ -354,7 +356,9 @@ function PeerlistBadge({
 function ProductHuntBadge({ tabIndex }: { isLight: boolean; tabIndex?: number }) {
   return (
     <a
-      href="#"
+      href="https://www.producthunt.com/products/denker?launch=denker"
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label="Product Hunt"
       tabIndex={tabIndex}
       className="flex w-full items-center gap-2 rounded-full bg-[#ff6154]/10 py-2 pr-5 pl-2 backdrop-blur-md transition-colors hover:bg-[#ff6154]/15 sm:w-auto sm:flex-1"
