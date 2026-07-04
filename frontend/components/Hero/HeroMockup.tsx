@@ -4,10 +4,7 @@ import { Pause, Play, SpeakerHigh, SpeakerX } from "@phosphor-icons/react/dist/s
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
-// TODO: replace with the real hero dashboard video (and a matching poster
-// image) when available. Until then this reuses the walkthrough placeholder.
-const HERO_VIDEO_SRC =
-  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+const HERO_VIDEO_SRC = "/videos/Denker-Hero-Video.mp4";
 
 const START_ANGLE = 35; // 2.5D backward tilt at rest
 const HEADER_OFFSET = 96; // px from the viewport top where the mockup pins
