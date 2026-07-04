@@ -19,11 +19,11 @@ export function Hero() {
           </h1>
         </div>
 
-        <div className="relative z-10 flex w-full items-start justify-center gap-2">
-          <Button variant="primary" href="#reach-out">
+        <div className="relative z-10 flex w-full flex-col items-stretch justify-center gap-2 sm:flex-row sm:items-start">
+          <Button variant="primary" href="#reach-out" className="w-full sm:w-auto">
             Get Started
           </Button>
-          <Button variant="secondary" href="#">
+          <Button variant="secondary" href="#" className="w-full sm:w-auto">
             Download Denker
           </Button>
         </div>
