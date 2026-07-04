@@ -5,6 +5,7 @@ import { List, X } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { LOGIN_URL } from "@/lib/links";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -153,7 +154,7 @@ export function Header() {
 
             <Button
               variant="primary"
-              href="#reach-out"
+              href={LOGIN_URL}
               className="hidden h-10 px-4 text-base lg:inline-flex"
             >
               Get Started
@@ -245,7 +246,7 @@ export function Header() {
         <div className="mt-auto flex flex-col items-start gap-6 px-1">
           <Button
             variant="primary"
-            href="#reach-out"
+            href={LOGIN_URL}
             tabIndex={menuOpen ? 0 : -1}
             onClick={() => setMenuOpen(false)}
             className="w-full"

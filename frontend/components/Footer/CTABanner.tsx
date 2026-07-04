@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { LOGIN_URL } from "@/lib/links";
 
 export function CTABanner() {
   return (
@@ -24,7 +25,7 @@ export function CTABanner() {
           <div className="relative z-20 flex items-center gap-2">
             <Button
               variant="primary"
-              href="#reach-out"
+              href={LOGIN_URL}
               className="bg-white text-grey-950 hover:bg-grey-50"
             >
               Get Started

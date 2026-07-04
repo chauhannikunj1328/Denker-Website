@@ -3,6 +3,7 @@
 import { Check, Info } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { LOGIN_URL } from "@/lib/links";
 
 const freeFeatures = ["2 projects", "5 spaces", "Basic memory", "Community support"];
 const proFeatures = [
@@ -94,9 +95,12 @@ export function Pricing() {
               </p>
             </div>
           </div>
-          <button className="h-12 w-full rounded-full border border-grey-700 bg-grey-900 font-body text-lg font-medium text-white transition-colors hover:bg-grey-800">
+          <a
+            href={LOGIN_URL}
+            className="flex h-12 w-full items-center justify-center rounded-full border border-grey-700 bg-grey-900 font-body text-lg font-medium text-white transition-colors hover:bg-grey-800"
+          >
             Get Started
-          </button>
+          </a>
         </div>
 
         {/* Pro */}
@@ -137,9 +141,12 @@ export function Pricing() {
               ))}
             </ul>
           </div>
-          <button className="h-12 w-full rounded-full bg-white font-body text-lg font-medium text-grey-950 transition-colors hover:bg-grey-50">
+          <a
+            href={LOGIN_URL}
+            className="flex h-12 w-full items-center justify-center rounded-full bg-white font-body text-lg font-medium text-grey-950 transition-colors hover:bg-grey-50"
+          >
             Get Started
-          </button>
+          </a>
         </div>
 
         {/* Max */}
