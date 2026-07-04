@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 const navLinks = [
   { label: "Features", href: "#" },
   { label: "Pricing", href: "#" },
-  { label: "Docs", href: "#" },
+  { label: "Docs", href: "https://www.denker.ai/docs", external: true },
   { label: "Blog", href: "#" },
   { label: "Community", href: "#" },
 ];
@@ -137,6 +137,8 @@ export function Header() {
                 <a
                   key={link.label}
                   href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
                   className={cn(
                     "py-2 font-body text-base font-medium transition-colors",
                     isLight
@@ -229,6 +231,8 @@ export function Header() {
             <a
               key={link.label}
               href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               tabIndex={menuOpen ? 0 : -1}
               onClick={() => setMenuOpen(false)}
               className="w-full rounded-2xl px-3 py-3 font-body text-xl font-medium transition-colors"

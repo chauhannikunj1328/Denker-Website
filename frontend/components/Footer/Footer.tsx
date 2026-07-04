@@ -9,13 +9,13 @@ import {
 import { Container } from "@/components/ui/Container";
 
 const pageLinks = [
-  "Home",
-  "Features",
-  "Pricing",
-  "Docs",
-  "Blog",
-  "Traction",
-  "Community",
+  { label: "Home", href: "#" },
+  { label: "Features", href: "#" },
+  { label: "Pricing", href: "#" },
+  { label: "Docs", href: "https://www.denker.ai/docs", external: true },
+  { label: "Blog", href: "#" },
+  { label: "Traction", href: "#" },
+  { label: "Community", href: "#" },
 ];
 const infoLinks = ["Contact", "Privacy", "Terms of use", "Cookies"];
 
@@ -73,11 +73,13 @@ export function Footer() {
               <div className="flex flex-col items-start gap-3">
                 {pageLinks.map((link) => (
                   <a
-                    key={link}
-                    href="#"
+                    key={link.label}
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noopener noreferrer" : undefined}
                     className="font-body text-base font-medium text-grey-500 transition-colors hover:text-primary-600"
                   >
-                    {link}
+                    {link.label}
                   </a>
                 ))}
               </div>
