@@ -26,7 +26,7 @@ export function Hero() {
 
         <FadeIn
           delay={0.15}
-          className="relative z-10 flex w-full flex-col items-stretch justify-center gap-2 sm:flex-row sm:items-start"
+          className="relative z-10 flex w-full flex-col items-stretch justify-center gap-2 pb-20 sm:flex-row sm:items-start"
         >
           <Button variant="primary" href={LOGIN_URL} className="w-full sm:w-auto">
             Get Started
