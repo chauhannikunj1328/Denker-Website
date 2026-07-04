@@ -22,18 +22,18 @@ export function CTABanner() {
             </p>
           </div>
 
-          <div className="relative z-20 flex items-center gap-2">
+          <div className="relative z-20 flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center">
             <Button
               variant="primary"
               href={LOGIN_URL}
-              className="bg-white text-grey-950 hover:bg-grey-50"
+              className="w-full bg-white text-grey-950 hover:bg-grey-50 sm:w-auto"
             >
               Get Started
             </Button>
             <Button
               variant="secondary"
               href="#"
-              className="border-white bg-transparent backdrop-blur-[24px] hover:border-grey-100 hover:bg-white/10"
+              className="w-full border-white bg-transparent backdrop-blur-[24px] hover:border-grey-100 hover:bg-white/10 sm:w-auto"
             >
               Download Denker
             </Button>
