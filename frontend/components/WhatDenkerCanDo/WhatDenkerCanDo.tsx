@@ -2,6 +2,7 @@
 
 import { Pause, Play } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
 
@@ -136,9 +137,11 @@ export function WhatDenkerCanDo() {
     >
       <Container className="flex flex-col items-center gap-14">
         <div className="w-full">
-          <h2 className="font-heading text-3xl font-bold text-white md:text-[40px] md:leading-[48px]">
-            What denker can do?
-          </h2>
+          <BlurText
+            as="h2"
+            className="font-heading text-3xl font-bold text-white md:text-[40px] md:leading-[48px]"
+            text="What denker can do?"
+          />
         </div>
 
         {/* No overflow clipping anywhere in this chain — neighboring cards

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { LOGIN_URL } from "@/lib/links";
@@ -13,9 +14,11 @@ export function CTABanner() {
       <Container>
         <div className="cta-radial-glow cta-card-height relative flex w-full flex-col items-center gap-8 overflow-hidden rounded-[20px] px-6 py-16 sm:rounded-[24px] sm:px-10 sm:py-20 md:rounded-[32px] md:py-24">
           <div className="relative z-20 flex max-w-[600px] flex-col items-center gap-2 text-center text-white">
-            <h2 className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]">
-              Built in Public. Trusted by Builders.
-            </h2>
+            <BlurText
+              as="h2"
+              className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]"
+              text="Built in Public. Trusted by Builders."
+            />
             <p className="font-heading text-lg font-medium leading-7 sm:text-xl">
               Explore Denker across the platforms where founders and product
               builders discover, collaborate, and contribute.

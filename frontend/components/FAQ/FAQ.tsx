@@ -2,6 +2,7 @@
 
 import { Minus, Plus } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
@@ -61,9 +62,11 @@ export function FAQ() {
       data-theme="light"
     >
       <Container className="faq-layout flex items-start gap-12">
-        <h2 className="max-w-[320px] font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]">
-          Frequently Asked Questions
-        </h2>
+        <BlurText
+          as="h2"
+          className="max-w-[320px] font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]"
+          text="Frequently Asked Questions"
+        />
 
         {/* max-w only applies once .faq-layout switches to a row (1080px+,
             see globals.css) to leave room for the heading beside it — below

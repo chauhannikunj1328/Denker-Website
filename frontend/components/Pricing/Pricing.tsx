@@ -2,6 +2,7 @@
 
 import { Check, Info } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 import { LOGIN_URL } from "@/lib/links";
 
@@ -39,9 +40,11 @@ export function Pricing() {
       <Container className="flex flex-col items-center gap-20">
       <div className="flex w-full flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-3 text-white">
-          <h2 className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]">
-            More progress. One workspace.
-          </h2>
+          <BlurText
+            as="h2"
+            className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]"
+            text="More progress. One workspace."
+          />
           <p className="font-heading text-xl font-medium text-white">
             Start free. Pay for what your agents actually need.
           </p>

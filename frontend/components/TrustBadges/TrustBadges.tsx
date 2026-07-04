@@ -1,3 +1,4 @@
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 
 // NOTE: Figma repeats the same "Google" placeholder logo 14x — swap in real
@@ -29,9 +30,11 @@ export function TrustBadges() {
     >
       <Container className="flex flex-col items-start gap-14">
         <div className="flex w-full flex-col items-start gap-2">
-          <h2 className="font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]">
-            Built in Public. Trusted by Builders.
-          </h2>
+          <BlurText
+            as="h2"
+            className="font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]"
+            text="Built in Public. Trusted by Builders."
+          />
           <p className="max-w-[800px] font-heading text-xl font-medium leading-7 text-grey-500">
             Explore Denker across the platforms where founders and product
             builders discover, collaborate, and contribute.

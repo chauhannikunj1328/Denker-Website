@@ -2,6 +2,7 @@
 
 import { Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 
 // Update `href` for each entry with the real destination — YouTube channel,
@@ -35,9 +36,11 @@ export function ReachOut() {
       data-theme="dark"
     >
       <Container className="flex flex-col items-start gap-14">
-        <h2 className="font-heading text-3xl font-bold text-white md:text-[40px] md:leading-[48px]">
-          Reach Out
-        </h2>
+        <BlurText
+          as="h2"
+          className="font-heading text-3xl font-bold text-white md:text-[40px] md:leading-[48px]"
+          text="Reach Out"
+        />
 
         <div className="reach-out-layout flex w-full gap-14">
           <div className="grid flex-1 grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">

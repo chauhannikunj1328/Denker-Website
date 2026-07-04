@@ -1,3 +1,4 @@
+import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 
@@ -13,10 +14,11 @@ export function Hero() {
           <p className="font-body text-base font-medium text-primary-400">
             Built for Founders &amp; Product Builders
           </p>
-          <h1 className="font-heading text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-[56px] md:leading-[60px]">
-            Never again follow every AI conversation manually, let your AI
-            coworker follow where you work
-          </h1>
+          <BlurText
+            as="h1"
+            className="font-heading text-4xl font-bold leading-[1.1] text-white sm:text-5xl md:text-[56px] md:leading-[60px]"
+            text="Never again follow every AI conversation manually, let your AI coworker follow where you work"
+          />
         </div>
 
         <div className="relative z-10 flex w-full flex-col items-stretch justify-center gap-2 sm:flex-row sm:items-start">

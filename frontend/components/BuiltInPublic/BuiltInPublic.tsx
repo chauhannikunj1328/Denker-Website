@@ -1,5 +1,6 @@
 import type { ElementType, ReactNode } from "react";
 import Image from "next/image";
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/cn";
 
@@ -61,9 +62,11 @@ export function BuiltInPublic() {
     >
       <Container className="flex flex-col items-center gap-14">
         <div className="flex w-full flex-col items-start gap-2 text-white">
-          <h2 className="font-heading text-3xl font-bold leading-tight md:text-[40px] md:leading-[48px]">
-            Built in Public. Trusted by Builders.
-          </h2>
+          <BlurText
+            as="h2"
+            className="font-heading text-3xl font-bold leading-tight md:text-[40px] md:leading-[48px]"
+            text="Built in Public. Trusted by Builders."
+          />
           <p className="max-w-[720px] font-body text-lg leading-7 text-grey-300">
             Explore Denker across the platforms where founders and product
             builders discover, collaborate, and contribute.

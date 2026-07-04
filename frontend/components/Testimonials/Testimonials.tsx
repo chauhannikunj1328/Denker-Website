@@ -3,6 +3,7 @@
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
 import { useDeckCarousel } from "@/lib/useDeckCarousel";
+import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
 
 const testimonials = [
@@ -70,9 +71,11 @@ export function Testimonials() {
       data-theme="light"
     >
       <Container className="flex flex-col items-start gap-14">
-        <h2 className="font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]">
-          Loved by Builders
-        </h2>
+        <BlurText
+          as="h2"
+          className="font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]"
+          text="Loved by Builders"
+        />
 
         {/* No overflow clipping anywhere in this chain — neighboring cards
             render at full size and bleed past the 1280px container into the
