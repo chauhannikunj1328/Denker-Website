@@ -75,7 +75,8 @@ export function HeroMockup() {
         // (track bottom at pin line, i.e. the next section reaches the top).
         // Scale hits 0 right at q = 1, so there is no empty gap afterwards.
         const q = Math.min(1, Math.max(0, (pinTop - elTop) / elH));
-        const FULL = Math.max(vw / w, vh / h);
+        // Expand to the viewport width exactly — never wider (no side crop).
+        const FULL = vw / w;
         let scale = 1;
         if (q > 0) {
           if (q <= 0.32) scale = 1 + (FULL - 1) * (q / 0.32);
