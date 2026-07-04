@@ -1,5 +1,6 @@
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 // NOTE: Figma repeats the same "Google" placeholder logo 14x — swap in real
 // integration logos/names once the client provides their partner list.
@@ -35,13 +36,13 @@ export function TrustBadges() {
             className="font-heading text-3xl font-bold text-grey-950 md:text-[40px] md:leading-[48px]"
             text="Built in Public. Trusted by Builders."
           />
-          <p className="max-w-[800px] font-heading text-xl font-medium leading-7 text-grey-500">
+          <FadeIn as="p" delay={0.1} className="max-w-[800px] font-heading text-xl font-medium leading-7 text-grey-500">
             Explore Denker across the platforms where founders and product
             builders discover, collaborate, and contribute.
-          </p>
+          </FadeIn>
         </div>
 
-        <div className="trustbadges-grid grid w-full gap-2">
+        <FadeIn delay={0.2} className="trustbadges-grid grid w-full gap-2">
           {integrations.map((integration, i) => (
             <div
               key={i}
@@ -58,7 +59,7 @@ export function TrustBadges() {
               More than 500+ integrations are available
             </p>
           </div>
-        </div>
+        </FadeIn>
       </Container>
     </section>
   );

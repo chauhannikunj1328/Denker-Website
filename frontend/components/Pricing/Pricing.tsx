@@ -4,6 +4,7 @@ import { Check, Info } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { LOGIN_URL } from "@/lib/links";
 
 const freeFeatures = ["2 projects", "5 spaces", "Basic memory", "Community support"];
@@ -45,9 +46,9 @@ export function Pricing() {
             className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]"
             text="More progress. One workspace."
           />
-          <p className="font-heading text-xl font-medium text-white">
+          <FadeIn as="p" delay={0.1} className="font-heading text-xl font-medium text-white">
             Start free. Pay for what your agents actually need.
-          </p>
+          </FadeIn>
         </div>
 
         <div className="flex items-center gap-3">
@@ -71,7 +72,7 @@ export function Pricing() {
         </div>
       </div>
 
-      <div className="pricing-grid w-full">
+      <FadeIn delay={0.2} className="pricing-grid w-full">
         {/* Free */}
         <div className="flex flex-col gap-8 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-800 bg-grey-900 p-8">
           <div className="flex flex-1 flex-col gap-6">
@@ -186,7 +187,7 @@ export function Pricing() {
             Coming Soon
           </button>
         </div>
-      </div>
+      </FadeIn>
 
       <div className="flex w-full flex-col items-center gap-6">
         <p className="text-center font-heading text-sm font-medium text-grey-500">

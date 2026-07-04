@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 const faqs = [
   {
@@ -72,7 +73,7 @@ export function FAQ() {
             see globals.css) to leave room for the heading beside it — below
             that it stacks under the heading, so it should fill the full
             width instead of staying capped at 720px. */}
-        <div className="flex w-full min-[1080px]:max-w-[720px] flex-col gap-2">
+        <FadeIn delay={0.1} className="flex w-full min-[1080px]:max-w-[720px] flex-col gap-2">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
@@ -136,7 +137,7 @@ export function FAQ() {
               </div>
             );
           })}
-        </div>
+        </FadeIn>
       </Container>
     </section>
   );

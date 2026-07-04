@@ -4,6 +4,7 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { cn } from "@/lib/cn";
 
 // Each card's copy is provided per-section by the caller (BuiltForFounders,
@@ -149,6 +150,7 @@ export function CardCarousel({
         {/* No overflow clipping anywhere in this chain — neighboring cards
             render at full size and bleed past the 1280px container into the
             page's outer margins instead of being cut off. */}
+        <FadeIn delay={0.15} className="w-full">
         <div ref={wrapperRef} className="relative w-full">
           <div
             ref={deckRef}
@@ -202,6 +204,7 @@ export function CardCarousel({
             ))}
           </div>
         </div>
+        </FadeIn>
 
         <div className="flex w-full items-center justify-end gap-2">
           <button

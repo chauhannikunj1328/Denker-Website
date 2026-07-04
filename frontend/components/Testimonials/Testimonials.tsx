@@ -5,6 +5,7 @@ import { cn } from "@/lib/cn";
 import { useDeckCarousel } from "@/lib/useDeckCarousel";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 const testimonials = [
   {
@@ -81,6 +82,7 @@ export function Testimonials() {
             render at full size and bleed past the 1280px container into the
             page's outer margins instead of being cut off. Same deck
             mechanics as CardCarousel (see useDeckCarousel). */}
+        <FadeIn delay={0.15} className="w-full">
         <div ref={wrapperRef} className="relative w-full">
           <div
             ref={deckRef}
@@ -114,6 +116,7 @@ export function Testimonials() {
             ))}
           </div>
         </div>
+        </FadeIn>
 
         <div className="flex w-full items-center justify-end gap-2">
           <button

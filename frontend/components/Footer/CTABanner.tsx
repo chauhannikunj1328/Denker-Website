@@ -2,6 +2,7 @@ import Image from "next/image";
 import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { LOGIN_URL } from "@/lib/links";
 
 export function CTABanner() {
@@ -19,13 +20,13 @@ export function CTABanner() {
               className="font-heading text-3xl font-bold md:text-[40px] md:leading-[48px]"
               text="Built in Public. Trusted by Builders."
             />
-            <p className="font-heading text-lg font-medium leading-7 sm:text-xl">
+            <FadeIn as="p" delay={0.1} className="font-heading text-lg font-medium leading-7 sm:text-xl">
               Explore Denker across the platforms where founders and product
               builders discover, collaborate, and contribute.
-            </p>
+            </FadeIn>
           </div>
 
-          <div className="relative z-20 flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center">
+          <FadeIn delay={0.2} className="relative z-20 flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center">
             <Button
               variant="primary"
               href={LOGIN_URL}
@@ -40,7 +41,7 @@ export function CTABanner() {
             >
               Download Denker
             </Button>
-          </div>
+          </FadeIn>
 
           {/* Decorative "agent at work" bubble composites (Marketer+Designer
               on the left, Denker+Sales on the right) — each pair is already

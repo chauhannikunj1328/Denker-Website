@@ -2,6 +2,7 @@ import type { ElementType, ReactNode } from "react";
 import Image from "next/image";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { cn } from "@/lib/cn";
 
 type BuiltInPublicCard = {
@@ -67,16 +68,16 @@ export function BuiltInPublic() {
             className="font-heading text-3xl font-bold leading-tight md:text-[40px] md:leading-[48px]"
             text="Built in Public. Trusted by Builders."
           />
-          <p className="max-w-[720px] font-body text-lg leading-7 text-grey-300">
+          <FadeIn as="p" delay={0.1} className="max-w-[720px] font-body text-lg leading-7 text-grey-300">
             Explore Denker across the platforms where founders and product
             builders discover, collaborate, and contribute.
-          </p>
+          </FadeIn>
         </div>
 
         {/* Mobile: all 3 stacked full-width. Tablet: Peerlist + Product Hunt
             side by side, Betalist spans both columns below them. Desktop: all
             3 in a single row. */}
-        <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+        <FadeIn delay={0.2} className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
           {cards.map((card) => {
             const Wrapper: ElementType = card.href ? "a" : "div";
             return (
@@ -114,7 +115,7 @@ export function BuiltInPublic() {
             </Wrapper>
             );
           })}
-        </div>
+        </FadeIn>
       </Container>
     </section>
   );

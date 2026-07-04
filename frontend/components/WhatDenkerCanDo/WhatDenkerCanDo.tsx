@@ -4,6 +4,7 @@ import { Pause, Play } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { cn } from "@/lib/cn";
 
 // NOTE: Figma has real background graphics for all 5 cards now — replace the
@@ -147,6 +148,7 @@ export function WhatDenkerCanDo() {
         {/* No overflow clipping anywhere in this chain — neighboring cards
             render at full size and bleed past the 1280px container into the
             page's outer margins instead of being cut off. */}
+        <FadeIn delay={0.15} className="w-full">
         <div ref={wrapperRef} className="relative w-full">
           <div
             ref={deckRef}
@@ -182,6 +184,7 @@ export function WhatDenkerCanDo() {
             ))}
           </div>
         </div>
+        </FadeIn>
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 rounded-full bg-grey-900 px-5 py-3.5">

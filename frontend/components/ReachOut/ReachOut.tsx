@@ -4,6 +4,7 @@ import { Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { BlurText } from "@/components/ui/BlurText";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 // Update `href` for each entry with the real destination — YouTube channel,
 // mailto: link, X/Twitter profile, WhatsApp invite, LinkedIn page, TikTok
@@ -42,7 +43,7 @@ export function ReachOut() {
           text="Reach Out"
         />
 
-        <div className="reach-out-layout flex w-full gap-14">
+        <FadeIn delay={0.1} className="reach-out-layout flex w-full gap-14">
           <div className="grid flex-1 grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
             {socialLinks.map((link, i) => (
               <a
@@ -96,7 +97,7 @@ export function ReachOut() {
               </form>
             )}
           </div>
-        </div>
+        </FadeIn>
       </Container>
     </section>
   );
