@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { HeroMockup } from "@/components/Hero/HeroMockup";
 import { BuiltInPublic } from "@/components/BuiltInPublic";
 import { VideoWalkthrough } from "@/components/Video";
 import { WhatDenkerCanDo } from "@/components/WhatDenkerCanDo";
@@ -18,6 +19,7 @@ export default function Home() {
       <Header />
       <main className="flex flex-1 flex-col">
         <Hero />
+        <HeroMockup />
         <BuiltInPublic />
         <VideoWalkthrough />
         <WhatDenkerCanDo />

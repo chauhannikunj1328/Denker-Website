@@ -9,81 +9,98 @@ import { motion, useMotionValue, useReducedMotion, useTransform } from "framer-m
 const HERO_VIDEO_SRC =
   "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
-// Scroll distance (px from the top) over which the tilt flattens — roughly
-// three scroll-wheel notches.
-const FLATTEN_DISTANCE = 450;
-// How far the mockup is tilted back (degrees) when at the very top: the 2.5D look.
+// Total scroll height (in viewport heights) the pinned animation occupies.
+const TRACK_VH = 220;
+// Backward tilt (degrees) of the 2.5D look at the very start.
 const START_ANGLE = 35;
-// Seconds to wait after the mockup is flat before the video starts.
+// Seconds after the mockup flattens before the video starts.
 const VIDEO_START_DELAY_MS = 5000;
 
+// Scroll progress breakpoints (0 = pin start, 1 = pin end):
+const P_FLAT = 0.12; // tilt has flattened to 2D
+const P_FULL = 0.45; // reached full-screen scale
+const P_HOLD = 0.55; // starts shrinking
+const P_ZERO = 0.9; // fully shrunk to 0
+
 /**
- * Hero dashboard mockup (16:9) with a scroll-driven 2.5D effect:
- * - At the top it sits tilted back in perspective (2.5D) as a still image.
- * - Scrolling down flattens it to a straight-on 2D view; once flat it stays
- *   flat (it does not tilt back).
- * - A short delay after flattening, the video plays through once.
- * - When the video ends it holds on its last frame with a centered play button
- *   to replay it.
+ * Pinned hero dashboard mockup. As the user scrolls through this section the
+ * mockup (fixed/centered in the viewport) runs a timeline:
+ * 2.5D tilt → flatten to 2D → scale up to fill the screen → shrink back to 0,
+ * revealing the next section. The video plays once a short while after it
+ * flattens, and holds on its last frame with a replay button. Everything is
+ * driven purely by scroll position, so scrolling back up reverses it.
+ * (Uses position: fixed rather than sticky because the body's overflow-x:hidden
+ * turns the body into the scroll container and breaks sticky pinning.)
  */
 export function HeroMockup() {
   const reduceMotion = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
+  const mockupRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const flattenedRef = useRef(false);
-  const readyRef = useRef(false);
-  const [flattened, setFlattened] = useState(false);
+  const fullScaleRef = useRef(2.2);
+  const playedRef = useRef(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [ended, setEnded] = useState(false);
 
-  // 0 = fully tilted (2.5D), 1 = flat (2D). Driven directly off window scroll.
   const progress = useMotionValue(0);
-  const rotateX = useTransform(progress, [0, 1], [START_ANGLE, 0]);
-  const scale = useTransform(progress, [0, 1], [0.9, 1]);
+  const opacity = useMotionValue(0);
 
-  // On (re)load the browser can briefly restore the previous scroll position
-  // before StartAtTop resets to the top; ignore lock triggers until that
-  // settles, otherwise the mockup would lock flat and never show the 2.5D tilt.
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      readyRef.current = true;
-    }, 400);
-    return () => window.clearTimeout(id);
-  }, []);
+  const rotateX = useTransform(progress, (p) =>
+    p <= P_FLAT ? START_ANGLE * (1 - p / P_FLAT) : 0,
+  );
+  const scale = useTransform(progress, (p) => {
+    const FULL = fullScaleRef.current;
+    if (p <= P_FLAT) return 0.85 + 0.15 * (p / P_FLAT); // 0.85 → 1
+    if (p <= P_FULL) return 1 + (FULL - 1) * ((p - P_FLAT) / (P_FULL - P_FLAT)); // 1 → FULL
+    if (p <= P_HOLD) return FULL; // hold at full screen
+    if (p <= P_ZERO) return FULL * (1 - (p - P_HOLD) / (P_ZERO - P_HOLD)); // FULL → 0
+    return 0;
+  });
+  const radius = useTransform(progress, [P_FLAT, P_FULL], [32, 0], { clamp: true });
 
-  // Scroll events don't reliably fire in every embedding, so poll window scroll
-  // via rAF while the mockup is still tilting. Once it locks flat (one-way, no
-  // tilt-back), the loop stops.
   useEffect(() => {
     if (reduceMotion) return;
     let raf = 0;
     const loop = () => {
-      const y = window.scrollY;
-      if (readyRef.current && y >= FLATTEN_DISTANCE - 2) {
-        flattenedRef.current = true;
-        setFlattened(true);
-        progress.set(1);
-        return;
+      const track = trackRef.current;
+      const mock = mockupRef.current;
+      if (track && mock) {
+        const vh = window.innerHeight;
+        const top = track.offsetTop;
+        const travel = Math.max(1, track.offsetHeight - vh);
+        const raw = window.scrollY - top;
+        const p = Math.min(1, Math.max(0, raw / travel));
+
+        // Full-screen cover scale from the mockup's (unscaled) layout size.
+        const w = mock.offsetWidth;
+        const h = mock.offsetHeight;
+        if (w && h) {
+          fullScaleRef.current = Math.max(window.innerWidth / w, vh / h);
+        }
+
+        progress.set(p);
+        // Visible only while the pin is active; fade at the very start.
+        const vis = raw < 0 ? 0 : Math.min(1, raw / (travel * 0.03));
+        opacity.set(p >= 1 ? 0 : vis);
+
+        // Play the video once, a short delay after the mockup flattens.
+        if (!playedRef.current && p >= P_FLAT) {
+          playedRef.current = true;
+          window.setTimeout(() => {
+            const v = videoRef.current;
+            if (v) {
+              v.currentTime = 0;
+              v.play().catch(() => {});
+              setHasPlayed(true);
+            }
+          }, VIDEO_START_DELAY_MS);
+        }
       }
-      progress.set(Math.min(1, Math.max(0, y / FLATTEN_DISTANCE)));
       raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [reduceMotion, progress]);
-
-  // Play the video once, a short delay after the mockup locks flat.
-  useEffect(() => {
-    if (reduceMotion || !flattened || hasPlayed) return;
-    const t = window.setTimeout(() => {
-      setHasPlayed(true);
-      const v = videoRef.current;
-      if (v) {
-        v.currentTime = 0;
-        v.play().catch(() => {});
-      }
-    }, VIDEO_START_DELAY_MS);
-    return () => window.clearTimeout(t);
-  }, [flattened, hasPlayed, reduceMotion]);
+  }, [reduceMotion, progress, opacity]);
 
   const replay = () => {
     const v = videoRef.current;
@@ -93,55 +110,73 @@ export function HeroMockup() {
     v.play().catch(() => {});
   };
 
+  // Reduced motion: a simple static mockup, no scroll animation or autoplay.
+  if (reduceMotion) {
+    return (
+      <div className="w-full px-6 sm:px-10 md:px-20">
+        <div className="relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
+          <video
+            src={HERO_VIDEO_SRC}
+            muted
+            playsInline
+            preload="metadata"
+            controls
+            className="size-full object-cover"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="relative aspect-video w-full"
-      style={{ perspective: reduceMotion ? undefined : 1000 }}
-    >
+    <>
+      {/* Scroll track: reserves the scroll distance for the pinned timeline. */}
+      <div ref={trackRef} aria-hidden style={{ height: `${TRACK_VH}vh` }} />
+
+      {/* Fixed/pinned stage, centered in the viewport. */}
       <motion.div
-        style={
-          reduceMotion
-            ? undefined
-            : { rotateX, scale, transformOrigin: "center top" }
-        }
-        className="hero-dashboard-radius absolute inset-0 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
+        style={{ opacity }}
+        className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6"
       >
-        {/* Still-image state: the styled dashboard frame + glow, shown until the
-            video starts. */}
-        <img
-          src="/images/hero/dashboard-glow.svg"
-          alt=""
-          aria-hidden
-          className={`pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover transition-opacity duration-500 ${
-            hasPlayed ? "opacity-0" : "opacity-80"
-          }`}
-        />
-        <video
-          ref={videoRef}
-          src={HERO_VIDEO_SRC}
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden
-          onEnded={() => setEnded(true)}
-          className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
-            hasPlayed ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        {/* Replay button centered on the last frame after the video ends. */}
-        {ended && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center">
-            <button
-              type="button"
-              onClick={replay}
-              aria-label="Replay video"
-              className="flex size-16 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 md:size-20"
-            >
-              <Play weight="fill" className="ml-1 size-7 md:size-8" />
-            </button>
-          </div>
-        )}
+        <motion.div
+          ref={mockupRef}
+          style={{ rotateX, scale, borderRadius: radius, perspective: 1000 }}
+          className="hero-dashboard-radius relative aspect-video w-full max-w-[1000px] overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
+        >
+          <img
+            src="/images/hero/dashboard-glow.svg"
+            alt=""
+            aria-hidden
+            className={`pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover transition-opacity duration-500 ${
+              hasPlayed ? "opacity-0" : "opacity-80"
+            }`}
+          />
+          <video
+            ref={videoRef}
+            src={HERO_VIDEO_SRC}
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden
+            onEnded={() => setEnded(true)}
+            className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
+              hasPlayed ? "opacity-100" : "opacity-0"
+            }`}
+          />
+          {ended && (
+            <div className="pointer-events-auto absolute inset-0 z-10 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={replay}
+                aria-label="Replay video"
+                className="flex size-16 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 md:size-20"
+              >
+                <Play weight="fill" className="ml-1 size-7 md:size-8" />
+              </button>
+            </div>
+          )}
+        </motion.div>
       </motion.div>
-    </div>
+    </>
   );
 }
