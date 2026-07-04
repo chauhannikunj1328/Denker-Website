@@ -119,7 +119,15 @@ export function Header() {
               isLight ? "bg-grey-950/5" : "bg-white/5"
             )}
           >
-            <div className="flex items-center gap-2 pl-1">
+            <a
+              href="/"
+              aria-label="Denker — home"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="flex items-center gap-2 pl-1"
+            >
               <Image src="/images/brand/brand-icon.svg" alt="" width={24} height={24} />
               <Image
                 src={
@@ -131,7 +139,7 @@ export function Header() {
                 width={64}
                 height={16}
               />
-            </div>
+            </a>
 
             <div className="hidden items-center gap-6 lg:flex">
               {navLinks.map((link) => (
@@ -204,7 +212,16 @@ export function Header() {
         )}
       >
         <div className="flex items-center justify-between p-3">
-          <div className="flex items-center gap-2 pl-1">
+          <a
+            href="/"
+            aria-label="Denker — home"
+            onClick={(e) => {
+              e.preventDefault();
+              setMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className="flex items-center gap-2 pl-1"
+          >
             <Image src="/images/brand/brand-icon.svg" alt="" width={24} height={24} />
             <Image
               src={
@@ -216,7 +233,7 @@ export function Header() {
               width={64}
               height={16}
             />
-          </div>
+          </a>
           <button
             type="button"
             aria-label="Close menu"
