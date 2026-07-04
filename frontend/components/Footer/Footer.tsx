@@ -25,7 +25,7 @@ const socialLinks = [
   { label: "X (Twitter)", href: "https://x.com/Denker_AI", Icon: XLogo },
   { label: "YouTube", href: "https://www.youtube.com/@DenkerAI", Icon: YoutubeLogo },
   { label: "Email", href: "mailto:jane@denker.ai", Icon: Envelope },
-  { label: "Message us", href: "#", Icon: ChatCircle },
+  { label: "Message us", href: "#reach-out", Icon: ChatCircle },
 ];
 
 export function Footer() {
