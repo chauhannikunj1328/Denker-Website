@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 
 const navLinks = [
   { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Docs", href: "https://www.denker.ai/docs", external: true },
   { label: "Blog", href: "https://www.denker.ai/blog", external: true },
   { label: "Community", href: "#" },

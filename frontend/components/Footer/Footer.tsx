@@ -11,7 +11,7 @@ import { Container } from "@/components/ui/Container";
 const pageLinks = [
   { label: "Home", href: "#" },
   { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Docs", href: "https://www.denker.ai/docs", external: true },
   { label: "Blog", href: "https://www.denker.ai/blog", external: true },
   { label: "Traction", href: "#" },

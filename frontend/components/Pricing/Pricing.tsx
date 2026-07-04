@@ -26,7 +26,8 @@ export function Pricing() {
 
   return (
     <section
-      className="flex w-full flex-col items-center gap-20 bg-grey-950 px-6 py-16 sm:px-10 md:px-20 md:py-20"
+      id="pricing"
+      className="flex w-full scroll-mt-28 flex-col items-center gap-20 bg-grey-950 px-6 py-16 sm:px-10 md:px-20 md:py-20"
       data-name="Section - Pricing"
       data-theme="dark"
     >
