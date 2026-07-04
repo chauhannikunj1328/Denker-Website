@@ -1,3 +1,4 @@
+import { HeroMockup } from "@/components/Hero/HeroMockup";
 import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -34,15 +35,7 @@ export function Hero() {
           </Button>
         </FadeIn>
 
-        <FadeIn delay={0.3} className="relative h-[420px] w-full sm:h-[560px] md:h-[720px]">
-          <div className="hero-dashboard-radius absolute inset-0 border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]" />
-          <img
-            src="/images/hero/dashboard-glow.svg"
-            alt=""
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover opacity-80"
-          />
-        </FadeIn>
+        <HeroMockup />
       </Container>
     </section>
   );
