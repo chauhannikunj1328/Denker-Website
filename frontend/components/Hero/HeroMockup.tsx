@@ -35,6 +35,7 @@ export function HeroMockup() {
   const [animate, setAnimate] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const staticRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -107,6 +108,23 @@ export function HeroMockup() {
     return () => cancelAnimationFrame(raf);
   }, [animate]);
 
+  // Play only while the hero is in view, pause when it scrolls away, so its
+  // audio never overlaps the walkthrough video further down the page.
+  useEffect(() => {
+    const video = videoRef.current;
+    const host = animate ? trackRef.current : staticRef.current;
+    if (!video || !host) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(host);
+    return () => io.disconnect();
+  }, [animate]);
+
   // Keep the play/pause icon in sync with the video's actual state.
   useEffect(() => {
     const video = videoRef.current;
@@ -144,7 +162,6 @@ export function HeroMockup() {
         muted
         loop
         playsInline
-        autoPlay
         preload="auto"
         className="absolute inset-0 size-full object-cover"
       />
@@ -177,7 +194,7 @@ export function HeroMockup() {
   // Static mockup for tablet / mobile / reduced motion — no scroll animation.
   if (!animate) {
     return (
-      <div className="group relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
+      <div ref={staticRef} className="group relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
         {mockup}
       </div>
     );
