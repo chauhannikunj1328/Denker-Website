@@ -30,7 +30,7 @@ export function ReachOut() {
   return (
     <section
       id="reach-out"
-      className="flex w-full flex-col items-center bg-grey-950 px-6 pt-16 pb-24 sm:px-10 md:px-20 md:pt-20 md:pb-32"
+      className="flex w-full scroll-mt-28 flex-col items-center bg-grey-950 px-6 pt-16 pb-24 sm:px-10 md:px-20 md:pt-20 md:pb-32"
       data-name="Section - Reach Out"
       data-theme="dark"
     >

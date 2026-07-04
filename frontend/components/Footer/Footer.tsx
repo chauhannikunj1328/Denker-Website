@@ -15,7 +15,7 @@ const pageLinks = [
   { label: "Docs", href: "https://www.denker.ai/docs", external: true },
   { label: "Blog", href: "https://www.denker.ai/blog", external: true },
   { label: "Traction", href: "#" },
-  { label: "Community", href: "#" },
+  { label: "Community", href: "#reach-out" },
 ];
 const infoLinks = ["Contact", "Privacy", "Terms of use", "Cookies"];
 
