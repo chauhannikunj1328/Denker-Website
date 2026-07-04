@@ -40,7 +40,7 @@ export function ReachOut() {
         </h2>
 
         <div className="flex w-full flex-col gap-14 md:flex-row md:items-stretch">
-          <div className="grid flex-1 grid-cols-1 gap-x-40 gap-y-10 sm:grid-cols-2">
+          <div className="grid flex-1 grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
             {socialLinks.map((link, i) => (
               <a
                 key={i}
