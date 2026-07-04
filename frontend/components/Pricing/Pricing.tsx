@@ -20,7 +20,11 @@ const maxFeatures = [
   "Beta features",
 ];
 
-const cliChips = ["Claude Code", "Codex", "OpenCode"];
+const cliChips = [
+  { label: "Claude Code", icon: "/logos/claude-logo.svg" },
+  { label: "Codex", icon: "/logos/codex-color.svg" },
+  { label: "OpenCode", icon: "/logos/opencode.svg" },
+];
 
 export function Pricing() {
   const [yearly, setYearly] = useState(false);
@@ -188,15 +192,23 @@ export function Pricing() {
         <div className="flex flex-wrap items-center justify-center gap-2">
           {cliChips.map((chip) => (
             <span
-              key={chip}
+              key={chip.label}
               className="flex items-center gap-2 rounded-full bg-grey-900 px-4 py-2 font-heading text-sm font-medium text-white"
             >
-              <span className="size-2 rounded-full bg-primary-400" />
-              {chip}
+              {chip.icon ? (
+                <img src={chip.icon} alt="" className="size-5" />
+              ) : (
+                <span className="size-2 rounded-full bg-primary-400" />
+              )}
+              {chip.label}
             </span>
           ))}
           <span className="flex items-center gap-2 rounded-full bg-grey-900 px-4 py-2 font-heading text-sm font-medium text-grey-500">
-            OpenRouter <span className="text-grey-500">soon</span>
+            <img src="/logos/openrouter.svg" alt="" className="size-5 opacity-50" />
+            OpenRouter
+            <span className="rounded-full bg-primary-800/40 px-2 py-0.5 font-heading text-xs font-medium text-primary-400/70">
+              Coming Soon
+            </span>
           </span>
         </div>
         <p className="text-center font-heading text-sm font-medium text-grey-500">

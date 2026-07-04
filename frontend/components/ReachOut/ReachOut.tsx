@@ -4,10 +4,17 @@ import { Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 
-// NOTE: Figma repeats the same "@denker_ai" handle + generic brand icon for
-// all 6 rows — swap in the real platform (X, LinkedIn, Discord, etc.) icons
-// and links once the client provides them.
-const socialLinks = Array.from({ length: 6 }, () => ({ handle: "@denker_ai" }));
+// Update `href` for each entry with the real destination — YouTube channel,
+// mailto: link, X/Twitter profile, WhatsApp invite, LinkedIn page, TikTok
+// profile, etc.
+const socialLinks: { handle: string; icon?: string; href: string }[] = [
+  { handle: "@Denker AI", icon: "/logos/YouTube.svg", href: "https://www.youtube.com/@DenkerAI" },
+  { handle: "@supprt@denker.ai", icon: "/logos/gmail.svg", href: "mailto:jane@denker.ai" },
+  { handle: "@denker_ai", icon: "/logos/x.svg", href: "https://x.com/Denker_AI" },
+  { handle: "@Join our community", icon: "/logos/WhatsApp.svg", href: "https://bit.ly/denkerai" },
+  { handle: "@Denker AI", icon: "/logos/LinkedIn.svg", href: "https://www.linkedin.com/company/denkerai/" },
+  { handle: "@denker_ai", icon: "/logos/TikTok.svg", href: "https://www.tiktok.com/@denkerai?is_from_webapp=1&sender_device=pc" },
+];
 
 export function ReachOut() {
   const [email, setEmail] = useState("");
@@ -32,19 +39,29 @@ export function ReachOut() {
           Reach Out
         </h2>
 
-        <div className="flex w-full flex-col gap-14 md:flex-row md:items-start">
+        <div className="flex w-full flex-col gap-14 md:flex-row md:items-stretch">
           <div className="grid flex-1 grid-cols-1 gap-x-40 gap-y-10 sm:grid-cols-2">
             {socialLinks.map((link, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-[10px] bg-primary-600">
-                  <Sparkle weight="fill" className="size-4 text-white" />
-                </span>
+              <a
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4"
+              >
+                {link.icon ? (
+                  <img src={link.icon} alt="" className="size-10 shrink-0 rounded-[10px]" />
+                ) : (
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-[10px] bg-primary-600">
+                    <Sparkle weight="fill" className="size-4 text-white" />
+                  </span>
+                )}
                 <span className="font-body text-base text-white">{link.handle}</span>
-              </div>
+              </a>
             ))}
           </div>
 
-          <div className="flex w-full flex-col gap-10 md:w-[430px]">
+          <div className="flex w-full flex-col gap-10 md:w-[430px] md:justify-between md:gap-0">
             <div className="flex flex-col gap-2">
               <p className="font-heading text-2xl font-bold text-white">Newsletter</p>
               <p className="font-body text-base leading-6 text-grey-500">
