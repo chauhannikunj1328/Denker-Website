@@ -274,7 +274,7 @@ body {
    (TrustBadges, FAQ); "desktop" starts fresh at 1080px. Dedicated classes
    for the same cascade-order reason as those. */
 .cta-card-height {
-  height: 580px;
+  height: 470px;
 }
 @media (min-width: 640px) and (max-width: 1079px) {
   .cta-card-height {
@@ -288,14 +288,14 @@ body {
 }
 
 .cta-image-left {
-  width: 360px;
+  width: 200px;
   max-width: none;
-  bottom: calc(-2% + 60px);
+  bottom: calc(-2% - 33px);
   left: -20%;
 }
 @media (min-width: 640px) and (max-width: 1079px) {
   .cta-image-left {
-    width: 330px;
+    width: 300px;
     bottom: calc(-2% - 60px);
     left: -8%;
   }
@@ -314,14 +314,14 @@ body {
 }
 
 .cta-image-right {
-  width: 432px;
+  width: 240px;
   max-width: none;
-  bottom: calc(-2% + 60px);
+  bottom: calc(-2% - 33px);
   right: -20%;
 }
 @media (min-width: 640px) and (max-width: 1079px) {
   .cta-image-right {
-    width: 390px;
+    width: 355px;
     bottom: calc(-2% - 60px);
     right: -8%;
   }
