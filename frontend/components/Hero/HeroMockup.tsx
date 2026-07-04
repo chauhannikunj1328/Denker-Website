@@ -149,7 +149,7 @@ export function HeroMockup() {
         className="absolute inset-0 size-full object-cover"
       />
 
-      <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-4 bg-gradient-to-t from-black/70 to-transparent p-4 pb-9">
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-4 bg-gradient-to-t from-black/70 to-transparent p-4 pb-9 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
         <button
           type="button"
           onClick={toggleMute}
@@ -177,7 +177,7 @@ export function HeroMockup() {
   // Static mockup for tablet / mobile / reduced motion — no scroll animation.
   if (!animate) {
     return (
-      <div className="relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
+      <div className="group relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
         {mockup}
       </div>
     );
@@ -193,7 +193,7 @@ export function HeroMockup() {
           always visible and playing inside it. */}
       <div
         ref={stageRef}
-        className="fixed z-30 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
+        className="group fixed z-30 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
         style={{ top: 0, left: 0, borderRadius: 32 }}
       >
         {mockup}

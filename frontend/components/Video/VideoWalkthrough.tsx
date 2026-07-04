@@ -85,7 +85,7 @@ export function VideoWalkthrough() {
         <FadeIn className="w-full">
         <div
           ref={wrapperRef}
-          className="relative aspect-video w-full overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-grey-900"
+          className="group relative aspect-video w-full overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-grey-900"
         >
           <video
             ref={videoRef}
@@ -96,7 +96,7 @@ export function VideoWalkthrough() {
             className="size-full object-cover"
           />
 
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-4 bg-gradient-to-t from-black/70 to-transparent p-4 pb-9">
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-4 bg-gradient-to-t from-black/70 to-transparent p-4 pb-9 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
             <button
               type="button"
               onClick={toggleMute}
