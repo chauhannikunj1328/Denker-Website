@@ -17,7 +17,12 @@ const pageLinks = [
   { label: "Traction", href: "https://www.denker.ai/traction" },
   { label: "Community", href: "#reach-out" },
 ];
-const infoLinks = ["Contact", "Privacy", "Terms of use", "Cookies"];
+const infoLinks = [
+  { label: "Contact", href: "#" },
+  { label: "Privacy", href: "https://www.denker.ai/privacy" },
+  { label: "Terms of use", href: "#" },
+  { label: "Cookies", href: "#" },
+];
 
 // Social links — destinations mirror the Reach Out section.
 const socialLinks = [
@@ -96,11 +101,11 @@ export function Footer() {
               <div className="flex flex-col items-start gap-3">
                 {infoLinks.map((link) => (
                   <a
-                    key={link}
-                    href="#"
+                    key={link.label}
+                    href={link.href}
                     className="font-body text-base font-medium text-grey-500 transition-colors hover:text-primary-600"
                   >
-                    {link}
+                    {link.label}
                   </a>
                 ))}
               </div>
