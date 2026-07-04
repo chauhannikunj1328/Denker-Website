@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Play } from "@phosphor-icons/react/dist/ssr";
 import { useReducedMotion } from "framer-motion";
 
 // TODO: replace with the real hero dashboard video (and a matching poster
@@ -13,7 +12,6 @@ const START_ANGLE = 35; // 2.5D backward tilt at rest
 const HEADER_OFFSET = 96; // px from the viewport top where the mockup pins
 const TILT_RANGE = 360; // px of scroll over which it flattens (1st animation)
 const TRACK_HEIGHT = 1400; // px the in-flow track adds — drives the pinned scale
-const VIDEO_START_DELAY_MS = 5000;
 const DESKTOP_MIN_WIDTH = 1024; // scroll animation runs at/above this width only
 
 /**
@@ -27,16 +25,15 @@ const DESKTOP_MIN_WIDTH = 1024; // scroll animation runs at/above this width onl
  *
  * Tablet / mobile (and reduced motion): no scroll animation — just a static,
  * flat video mockup in the hero.
+ *
+ * The video itself is always visible and playing (muted, looping) — it never
+ * reveals on scroll.
  */
 export function HeroMockup() {
   const reduceMotion = useReducedMotion();
   const [animate, setAnimate] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const playedRef = useRef(false);
-  const [hasPlayed, setHasPlayed] = useState(false);
-  const [ended, setEnded] = useState(false);
 
   // Only run the pinned scroll animation on desktop with motion allowed.
   useEffect(() => {
@@ -99,19 +96,6 @@ export function HeroMockup() {
         // Keep a constant visual 32px radius despite the scale.
         stage.style.borderRadius = `${scale > 0.01 ? 32 / scale : 32}px`;
         stage.style.opacity = String(opacity);
-
-        // Play the video once, a short delay after it flattens.
-        if (!playedRef.current && elTop <= pinTop + 2) {
-          playedRef.current = true;
-          window.setTimeout(() => {
-            const v = videoRef.current;
-            if (v) {
-              v.currentTime = 0;
-              v.play().catch(() => {});
-              setHasPlayed(true);
-            }
-          }, VIDEO_START_DELAY_MS);
-        }
       }
       raf = requestAnimationFrame(loop);
     };
@@ -119,28 +103,25 @@ export function HeroMockup() {
     return () => cancelAnimationFrame(raf);
   }, [animate]);
 
-  const replay = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    setEnded(false);
-    v.currentTime = 0;
-    v.play().catch(() => {});
-  };
+  const video = (
+    <video
+      src={HERO_VIDEO_SRC}
+      muted
+      playsInline
+      preload="auto"
+      autoPlay={!reduceMotion}
+      loop={!reduceMotion}
+      controls={reduceMotion}
+      aria-hidden={!reduceMotion}
+      className="absolute inset-0 size-full object-cover"
+    />
+  );
 
   // Static mockup for tablet / mobile / reduced motion — no scroll animation.
   if (!animate) {
     return (
       <div className="relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
-        <video
-          src={HERO_VIDEO_SRC}
-          muted
-          playsInline
-          preload="metadata"
-          autoPlay={!reduceMotion}
-          loop={!reduceMotion}
-          controls={reduceMotion}
-          className="size-full object-cover"
-        />
+        {video}
       </div>
     );
   }
@@ -151,44 +132,14 @@ export function HeroMockup() {
           scroll distance the pinned scale phase runs over. */}
       <div ref={trackRef} aria-hidden className="mx-auto w-full max-w-[1000px]" style={{ height: `${TRACK_HEIGHT}px` }} />
 
-      {/* Fixed stage that tracks the slot, then pins and scales. */}
+      {/* Fixed stage that tracks the slot, then pins and scales. The video is
+          always visible and playing inside it. */}
       <div
         ref={stageRef}
         className="fixed z-30 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
         style={{ top: 0, left: 0, borderRadius: 32 }}
       >
-        <img
-          src="/images/hero/dashboard-glow.svg"
-          alt=""
-          aria-hidden
-          className={`pointer-events-none absolute inset-x-0 bottom-[-10px] h-1/2 w-full object-cover transition-opacity duration-500 ${
-            hasPlayed ? "opacity-0" : "opacity-80"
-          }`}
-        />
-        <video
-          ref={videoRef}
-          src={HERO_VIDEO_SRC}
-          muted
-          playsInline
-          preload="metadata"
-          aria-hidden
-          onEnded={() => setEnded(true)}
-          className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
-            hasPlayed ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        {ended && (
-          <div className="pointer-events-auto absolute inset-0 z-10 flex items-center justify-center">
-            <button
-              type="button"
-              onClick={replay}
-              aria-label="Replay video"
-              className="flex size-16 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-black/70 md:size-20"
-            >
-              <Play weight="fill" className="ml-1 size-7 md:size-8" />
-            </button>
-          </div>
-        )}
+        {video}
       </div>
     </>
   );
