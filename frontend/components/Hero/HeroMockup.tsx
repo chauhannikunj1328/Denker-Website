@@ -10,16 +10,17 @@ const HERO_VIDEO_SRC =
   "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
 
 // Total scroll height (in viewport heights) the pinned animation occupies.
-const TRACK_VH = 220;
+const TRACK_VH = 260;
 // Backward tilt (degrees) of the 2.5D look at the very start.
 const START_ANGLE = 35;
 // Seconds after the mockup flattens before the video starts.
 const VIDEO_START_DELAY_MS = 5000;
 
 // Scroll progress breakpoints (0 = pin start, 1 = pin end):
-const P_FLAT = 0.12; // tilt has flattened to 2D
-const P_FULL = 0.45; // reached full-screen scale
-const P_HOLD = 0.55; // starts shrinking
+const P_FLAT = 0.15; // 1st animation: tilt has flattened to 2D
+const P_HOLD1 = 0.26; // brief flat hold (video plays here) before it grows
+const P_FULL = 0.52; // 2nd animation: reached full-screen scale
+const P_HOLD2 = 0.62; // holds full screen
 const P_ZERO = 0.9; // fully shrunk to 0
 
 /**
@@ -50,13 +51,14 @@ export function HeroMockup() {
   );
   const scale = useTransform(progress, (p) => {
     const FULL = fullScaleRef.current;
-    if (p <= P_FLAT) return 0.85 + 0.15 * (p / P_FLAT); // 0.85 → 1
-    if (p <= P_FULL) return 1 + (FULL - 1) * ((p - P_FLAT) / (P_FULL - P_FLAT)); // 1 → FULL
-    if (p <= P_HOLD) return FULL; // hold at full screen
-    if (p <= P_ZERO) return FULL * (1 - (p - P_HOLD) / (P_ZERO - P_HOLD)); // FULL → 0
+    if (p <= P_FLAT) return 0.85 + 0.15 * (p / P_FLAT); // 0.85 → 1 (1st anim)
+    if (p <= P_HOLD1) return 1; // hold flat
+    if (p <= P_FULL) return 1 + (FULL - 1) * ((p - P_HOLD1) / (P_FULL - P_HOLD1)); // 1 → FULL (2nd anim)
+    if (p <= P_HOLD2) return FULL; // hold full screen
+    if (p <= P_ZERO) return FULL * (1 - (p - P_HOLD2) / (P_ZERO - P_HOLD2)); // FULL → 0
     return 0;
   });
-  const radius = useTransform(progress, [P_FLAT, P_FULL], [32, 0], { clamp: true });
+  const radius = useTransform(progress, [P_HOLD1, P_FULL], [32, 0], { clamp: true });
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -131,12 +133,13 @@ export function HeroMockup() {
   return (
     <>
       {/* Scroll track: reserves the scroll distance for the pinned timeline. */}
-      <div ref={trackRef} aria-hidden style={{ height: `${TRACK_VH}vh` }} />
+      <div ref={trackRef} aria-hidden className="bg-grey-950" style={{ height: `${TRACK_VH}vh` }} />
 
-      {/* Fixed/pinned stage, centered in the viewport. */}
+      {/* Fixed/pinned stage, centered in the viewport. Dark background matches
+          the hero so the pinned region never flashes white. */}
       <motion.div
         style={{ opacity }}
-        className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center px-6"
+        className="pointer-events-none fixed inset-0 z-30 flex items-center justify-center bg-grey-950 px-6"
       >
         <motion.div
           ref={mockupRef}
