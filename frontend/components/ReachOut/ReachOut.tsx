@@ -39,7 +39,7 @@ export function ReachOut() {
           Reach Out
         </h2>
 
-        <div className="flex w-full flex-col gap-14 md:flex-row md:items-stretch">
+        <div className="reach-out-layout flex w-full gap-14">
           <div className="grid flex-1 grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2">
             {socialLinks.map((link, i) => (
               <a
@@ -61,7 +61,7 @@ export function ReachOut() {
             ))}
           </div>
 
-          <div className="flex w-full flex-col gap-10 md:w-[430px] md:justify-between md:gap-0">
+          <div className="reach-out-newsletter flex flex-col">
             <div className="flex flex-col gap-2">
               <p className="font-heading text-2xl font-bold text-white">Newsletter</p>
               <p className="font-body text-base leading-6 text-grey-500">

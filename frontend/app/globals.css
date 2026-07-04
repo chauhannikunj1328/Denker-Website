@@ -225,6 +225,29 @@ body {
   }
 }
 
+/* Reach Out: the social-links grid and the newsletter block stack vertically
+   (tablet structure) all the way up to 1080px, then sit side by side. Custom
+   1080px breakpoint, so dedicated classes again avoid the arbitrary-variant
+   cascade-order bug documented above. */
+.reach-out-layout {
+  flex-direction: column;
+}
+.reach-out-newsletter {
+  width: 100%;
+  gap: 2.5rem;
+}
+@media (min-width: 1080px) {
+  .reach-out-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .reach-out-newsletter {
+    width: 430px;
+    gap: 0;
+    justify-content: space-between;
+  }
+}
+
 /* CTA card background — a tall, top-centered radial glow fading from dark
    green through primary green out to white at the edges (from Figma). Kept
    as a dedicated class since the multi-stop gradient is unwieldy as a
