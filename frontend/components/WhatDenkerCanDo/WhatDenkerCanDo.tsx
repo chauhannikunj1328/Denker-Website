@@ -129,7 +129,8 @@ export function WhatDenkerCanDo() {
 
   return (
     <section
-      className="flex w-full flex-col items-center gap-14 bg-grey-950 px-6 py-16 sm:px-10 md:px-20 md:py-20"
+      id="features"
+      className="flex w-full scroll-mt-28 flex-col items-center gap-14 bg-grey-950 px-6 py-16 sm:px-10 md:px-20 md:py-20"
       data-name="Section - What denker can do?"
       data-theme="dark"
     >

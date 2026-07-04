@@ -59,6 +59,14 @@ body {
   font-family: var(--font-body);
 }
 
+/* Smooth in-page scrolling for anchor links (e.g. the header/footer "Features"
+   link jumping to #features), disabled when the user prefers reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* CardCarousel card sizing — discrete per-breakpoint values (not fluid
    scaling), since each breakpoint has its own fixed height. Width is
    per-card via the --card-w-* custom properties set inline; height is the
