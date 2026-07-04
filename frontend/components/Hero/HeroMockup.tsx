@@ -1,5 +1,6 @@
 "use client";
 
+import { Pause, Play, SpeakerHigh, SpeakerX } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
@@ -26,14 +27,17 @@ const DESKTOP_MIN_WIDTH = 1024; // scroll animation runs at/above this width onl
  * Tablet / mobile (and reduced motion): no scroll animation — just a static,
  * flat video mockup in the hero.
  *
- * The video itself is always visible and playing (muted, looping) — it never
- * reveals on scroll.
+ * The video is always visible and playing (muted, looping) with mute/unmute
+ * and play/pause controls — it never reveals on scroll.
  */
 export function HeroMockup() {
   const reduceMotion = useReducedMotion();
   const [animate, setAnimate] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
 
   // Only run the pinned scroll animation on desktop with motion allowed.
   useEffect(() => {
@@ -103,25 +107,78 @@ export function HeroMockup() {
     return () => cancelAnimationFrame(raf);
   }, [animate]);
 
-  const video = (
-    <video
-      src={HERO_VIDEO_SRC}
-      muted
-      playsInline
-      preload="auto"
-      autoPlay={!reduceMotion}
-      loop={!reduceMotion}
-      controls={reduceMotion}
-      aria-hidden={!reduceMotion}
-      className="absolute inset-0 size-full object-cover"
-    />
+  // Keep the play/pause icon in sync with the video's actual state.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    setPlaying(!video.paused);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+    };
+  }, [animate]);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  };
+
+  const mockup = (
+    <>
+      <video
+        ref={videoRef}
+        src={HERO_VIDEO_SRC}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        className="absolute inset-0 size-full object-cover"
+      />
+
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-4 bg-gradient-to-t from-black/70 to-transparent p-4 pb-9">
+        <button
+          type="button"
+          onClick={toggleMute}
+          aria-label={muted ? "Unmute" : "Mute"}
+          className="flex size-14 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        >
+          {muted ? <SpeakerX className="size-4" /> : <SpeakerHigh className="size-4" />}
+        </button>
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={playing ? "Pause" : "Play"}
+          className="flex size-14 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        >
+          {playing ? (
+            <Pause weight="fill" className="size-4" />
+          ) : (
+            <Play weight="fill" className="ml-0.5 size-4" />
+          )}
+        </button>
+      </div>
+    </>
   );
 
   // Static mockup for tablet / mobile / reduced motion — no scroll animation.
   if (!animate) {
     return (
       <div className="relative mx-auto aspect-video w-full max-w-[1000px] overflow-hidden rounded-[32px] border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950">
-        {video}
+        {mockup}
       </div>
     );
   }
@@ -139,7 +196,7 @@ export function HeroMockup() {
         className="fixed z-30 overflow-hidden border border-grey-700 bg-gradient-to-b from-grey-900 to-grey-950 shadow-[0_0_120px_rgba(74,191,115,0.08)]"
         style={{ top: 0, left: 0, borderRadius: 32 }}
       >
-        {video}
+        {mockup}
       </div>
     </>
   );
