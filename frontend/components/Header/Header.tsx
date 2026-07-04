@@ -176,7 +176,7 @@ export function Header() {
           {/* Desktop: standalone social pills beside the nav — collapsed to
               just the icon at rest, expanding to the full Figma "open" state
               (name + tagline) on hover. */}
-          <div className="hidden items-center gap-1 xl:flex">
+          <div className="hidden items-center gap-1 md:flex">
             <PeerlistHoverPill isLight={isLight} />
             <ProductHuntHoverPill />
           </div>

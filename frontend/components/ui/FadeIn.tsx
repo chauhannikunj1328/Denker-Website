@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 type FadeInProps = {
@@ -12,6 +12,8 @@ type FadeInProps = {
   y?: number;
   /** Which element to render. Rendered in place (no extra wrapper). */
   as?: "div" | "p" | "span";
+  /** Fires once the reveal finishes (or immediately under reduced motion). */
+  onComplete?: () => void;
 };
 
 /**
@@ -20,8 +22,20 @@ type FadeInProps = {
  * replace an existing element without adding a wrapper that would disturb
  * flex/grid layouts. Respects prefers-reduced-motion.
  */
-export function FadeIn({ children, className, delay = 0, y = 24, as = "div" }: FadeInProps) {
+export function FadeIn({
+  children,
+  className,
+  delay = 0,
+  y = 24,
+  as = "div",
+  onComplete,
+}: FadeInProps) {
   const reduceMotion = useReducedMotion();
+
+  // With no animation to wait for, signal completion right away.
+  useEffect(() => {
+    if (reduceMotion) onComplete?.();
+  }, [reduceMotion, onComplete]);
 
   if (reduceMotion) {
     const Tag = as;
@@ -37,6 +51,7 @@ export function FadeIn({ children, className, delay = 0, y = 24, as = "div" }: F
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: "easeOut", delay }}
+      onAnimationComplete={onComplete}
     >
       {children}
     </MotionTag>

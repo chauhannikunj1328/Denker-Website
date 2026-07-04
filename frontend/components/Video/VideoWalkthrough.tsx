@@ -8,6 +8,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { FadeIn } from "@/components/ui/FadeIn";
 
 // NOTE: Figma shows an empty placeholder card for this section — no real
 // video asset was provided. Using a public domain sample video as a stand-in
@@ -81,6 +82,7 @@ export function VideoWalkthrough() {
       data-theme="dark"
     >
       <Container>
+        <FadeIn className="w-full">
         <div
           ref={wrapperRef}
           className="relative aspect-video w-full overflow-hidden rounded-[20px] sm:rounded-[24px] md:rounded-[32px] bg-grey-900"
@@ -121,6 +123,7 @@ export function VideoWalkthrough() {
             </button>
           </div>
         </div>
+        </FadeIn>
       </Container>
     </section>
   );

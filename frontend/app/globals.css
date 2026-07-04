@@ -100,23 +100,20 @@ body {
   }
 }
 
-/* Hero dashboard mockup's top-corner radius — responsive, top corners only.
-   Uses a dedicated class (rather than Tailwind's rounded-t-[...] arbitrary
+/* Hero dashboard mockup radius — responsive, all four corners.
+   Uses a dedicated class (rather than Tailwind's rounded-[...] arbitrary
    value) because that combination wasn't compiling correctly here. */
 .hero-dashboard-radius {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 20px;
 }
 @media (min-width: 640px) {
   .hero-dashboard-radius {
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
+    border-radius: 24px;
   }
 }
 @media (min-width: 768px) {
   .hero-dashboard-radius {
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
+    border-radius: 32px;
   }
 }
 

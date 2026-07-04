@@ -57,7 +57,8 @@ export function WhatDenkerCanDo() {
   const deckRef = useRef<HTMLDivElement>(null);
   const [geo, setGeo] = useState<Geometry | null>(null);
   const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(true);
+  // Autoplay starts off; it's turned on once the section's fade-in completes.
+  const [playing, setPlaying] = useState(false);
   // The settled offset is fully derived from active+geo; dragOffset is a
   // temporary override that's only non-null while actively dragging.
   const [dragOffset, setDragOffset] = useState<number | null>(null);
@@ -148,7 +149,7 @@ export function WhatDenkerCanDo() {
         {/* No overflow clipping anywhere in this chain — neighboring cards
             render at full size and bleed past the 1280px container into the
             page's outer margins instead of being cut off. */}
-        <FadeIn delay={0.15} className="w-full">
+        <FadeIn delay={0.15} className="w-full" onComplete={() => setPlaying(true)}>
         <div ref={wrapperRef} className="relative w-full">
           <div
             ref={deckRef}
