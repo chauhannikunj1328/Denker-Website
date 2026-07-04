@@ -3,7 +3,7 @@ import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { LOGIN_URL } from "@/lib/links";
+import { DOWNLOAD_URL, LOGIN_URL } from "@/lib/links";
 
 export function CTABanner() {
   return (
@@ -36,7 +36,8 @@ export function CTABanner() {
             </Button>
             <Button
               variant="secondary"
-              href="#"
+              href={DOWNLOAD_URL}
+              download
               className="w-full border-white bg-transparent backdrop-blur-[24px] hover:border-grey-100 hover:bg-white/10 sm:w-auto"
             >
               Download Denker

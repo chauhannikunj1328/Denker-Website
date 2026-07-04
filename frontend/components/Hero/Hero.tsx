@@ -3,7 +3,7 @@ import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
-import { LOGIN_URL } from "@/lib/links";
+import { DOWNLOAD_URL, LOGIN_URL } from "@/lib/links";
 
 export function Hero() {
   return (
@@ -31,7 +31,7 @@ export function Hero() {
           <Button variant="primary" href={LOGIN_URL} className="w-full sm:w-auto">
             Get Started
           </Button>
-          <Button variant="secondary" href="#" className="w-full sm:w-auto">
+          <Button variant="secondary" href={DOWNLOAD_URL} download className="w-full sm:w-auto">
             Download Denker
           </Button>
         </FadeIn>

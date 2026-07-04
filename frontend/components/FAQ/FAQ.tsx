@@ -6,6 +6,7 @@ import { BlurText } from "@/components/ui/BlurText";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { DOWNLOAD_URL } from "@/lib/links";
 
 const faqs = [
   {
@@ -49,7 +50,7 @@ const faqs = [
     question: "How do I get started?",
     answer:
       "Getting started is simple. Download Denker, sign in, and start giving tasks using voice or text. Within minutes, Denker is ready to help you research, analyze, and execute work.",
-    cta: { label: "Download Denker", href: "#" },
+    cta: { label: "Download Denker", href: DOWNLOAD_URL },
   },
 ];
 
