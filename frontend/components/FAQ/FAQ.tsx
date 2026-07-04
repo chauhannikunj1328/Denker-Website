@@ -38,13 +38,13 @@ const faqs = [
     question: "Is my data secure?",
     answer:
       "Yes. Your privacy and security are a priority. Denker is designed to work with your tasks while giving you control over your data and permissions. You decide what Denker can access and how it assists your workflow.",
-    cta: { label: "Learn more at privacy Page", href: "#" },
+    cta: { label: "Learn more at privacy Page", href: "https://www.denker.ai/privacy" },
   },
   {
     question: "Is Denker free to use?",
     answer:
       "Yes. You can get started with Denker for free and explore its core capabilities. As your needs grow, premium plans unlock more advanced features, higher usage limits, and additional integrations.",
-    cta: { label: "View Pricing Plan", href: "#" },
+    cta: { label: "View Pricing Plan", href: "#pricing" },
   },
   {
     question: "How do I get started?",
