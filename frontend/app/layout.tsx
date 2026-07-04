@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Roboto } from "next/font/google";
+import { StartAtTop } from "@/components/ui/StartAtTop";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,6 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full min-w-[320px] flex flex-col overflow-x-hidden bg-grey-950 text-white">
+        <StartAtTop />
         {children}
       </body>
     </html>
