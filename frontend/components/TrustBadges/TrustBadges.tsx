@@ -46,7 +46,9 @@ export function TrustBadges() {
           {integrations.map((integration, i) => (
             <div
               key={i}
-              className="flex aspect-auto h-full flex-col items-center justify-center gap-3 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-100 bg-white p-6"
+              // Mobile (2-col, < 640px) shows only the first six integrations
+              // plus the trailing "500+" card; the rest appear from sm up.
+              className={`${i >= 6 ? "hidden sm:flex" : "flex"} aspect-auto h-full flex-col items-center justify-center gap-3 rounded-[20px] sm:rounded-[24px] md:rounded-[32px] border border-grey-100 bg-white p-6`}
             >
               <img src={integration.logo} alt="" className="size-10" />
               <p className="w-full text-center font-heading text-base font-medium text-grey-500">
